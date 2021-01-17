@@ -1,0 +1,389 @@
+<form [formGroup]="allAlgoForm" (ngSubmit)="onSubmit(allAlgoForm.value)">
+
+  <div class="input-div">
+    <label for="train_path">
+      Train path:
+    </label>
+    <select id="train_path" formControlName="train_path" class="form-control">
+      <option *ngFor="let r of listUploads" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div">
+    <label for="test_path">
+      Test path:
+    </label>
+    <select id="test_path" formControlName="test_path" class="form-control">
+      <option *ngFor="let r of listUploads" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div">
+    <label for="use_wiener">
+      nonlinear inputs extension:
+    </label>
+    <input id="use_wiener" type="checkbox" formControlName="use_wiener">
+  </div>
+
+  <div class="input-div">
+    <label for="wiener_n">
+      wiener n:
+    </label>
+    <input id="wiener_n" type="number" formControlName="wiener_n" ng-pattern="/^-?[0-9][^\.]*$/">
+  </div>
+  <h2>General regression neural network</h2>
+  <div class="input-div">
+    <label for="grrn_sigma">
+      Sigma:
+    </label>
+    <input id="grrn_sigma" type="number" formControlName="grrn_sigma">
+  </div>
+  <h2>Epsilon-Support Vector Regression</h2>
+  <div class="input-div">
+    <label for="svr_kernel">kernel</label>
+    <select id="svr_kernel" formControlName="svr_kernel" class="form-control">
+      <option *ngFor="let r of ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+  <div class="input-div">
+    <label for="svr_gamma">gamma</label>
+    <input id="svr_gamma" type="text" formControlName="svr_gamma">
+  </div>
+  <div class="input-div">
+    <label for="svr_coef0">coef0</label>
+    <input id="svr_coef0" type="number" formControlName="svr_coef0">
+  </div>
+  <div class="input-div">
+    <label for="svr_epsilon">epsilon</label>
+    <input id="svr_epsilon" type="number" formControlName="svr_epsilon">
+  </div>
+  <div class="input-div">
+    <label for="svr_max_iter">max_iter</label>
+    <input id="svr_max_iter" type="number" formControlName="svr_max_iter">
+  </div>
+  <div class="input-div">
+    <label for="svr_degree">degree</label>
+    <input id="svr_degree" type="number" formControlName="svr_degree">
+  </div>
+  <div class="input-div">
+    <label for="svr_tol">tol</label>
+    <input id="svr_tol" type="number" formControlName="svr_tol">
+  </div>
+  <div class="input-div">
+    <label for="svr_C">C</label>
+    <input id="svr_C" type="number" formControlName="svr_C">
+  </div>
+  <div class="input-div">
+    <label for="svr_shrinking">shrinking</label>
+    <input id="svr_shrinking" type="checkbox" formControlName="svr_shrinking">
+  </div>
+  <div class="input-div">
+    <label for="svr_cache_size">cache_size</label>
+    <input id="svr_cache_size" type="number" formControlName="svr_cache_size">
+  </div>
+  <div class="input-div">
+    <label for="svr_verbose">verbose</label>
+    <input id="svr_verbose" type="checkbox" formControlName="svr_verbose">
+  </div>
+
+
+
+  <h2>Stochastic Gradient Descent</h2>
+  <div class="input-div">
+    <label for="sgd_loss">loss:</label>
+    <select id="sgd_loss" formControlName="sgd_loss" class="form-control">
+      <option *ngFor="let r of ['squared_loss','huber', 'epsilon_insensitive',  'squared_epsilon_insensitive']"
+        [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div">
+    <label for="sgd_penalty">penalty:</label>
+    <select id="sgd_penalty" formControlName="sgd_penalty" class="form-control">
+      <option *ngFor="let r of ['l2', 'l1', 'elasticnet']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+
+  <div class="input-div"><label for="sgd_alpha">alpha:</label><input id="sgd_alpha" type="text"
+      formControlName="sgd_alpha">
+  </div>
+  <div class="input-div"><label for="sgd_l1_ratio">l1_ratio:</label><input id="sgd_l1_ratio" type="text"
+      formControlName="sgd_l1_ratio"></div>
+  <div class="input-div"><label for="sgd_fit_intercept">fit_intercept:</label><input id="sgd_fit_intercept"
+      type="checkbox" formControlName="sgd_fit_intercept"></div>
+  <div class="input-div"><label for="sgd_max_iter">max_iter:</label><input id="sgd_max_iter" type="text"
+      formControlName="sgd_max_iter"></div>
+  <div class="input-div"><label for="sgd_tol">tol:</label><input id="sgd_tol" type="text" formControlName="sgd_tol">
+  </div>
+  <div class="input-div"><label for="sgd_shuffle">shuffle:</label><input id="sgd_shuffle" type="checkbox"
+      formControlName="sgd_shuffle"></div>
+  <div class="input-div"><label for="sgd_verbose">verbose:</label><input id="sgd_verbose" type="text"
+      formControlName="sgd_verbose"></div>
+  <div class="input-div"><label for="sgd_epsilon">epsilon:</label><input id="sgd_epsilon" type="text"
+      formControlName="sgd_epsilon"></div>
+
+
+  <div class="input-div">
+    <label for="sgd_learning_rate">learning_rate:</label>
+    <select id="sgd_learning_rate" formControlName="sgd_learning_rate" class="form-control">
+      <option *ngFor="let r of ['constant','optimal','invscaling', 'adaptive']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+  <div class="input-div"><label for="sgd_eta0">eta0:</label><input id="sgd_eta0" type="text" formControlName="sgd_eta0">
+  </div>
+  <div class="input-div"><label for="sgd_power_t">power_t:</label><input id="sgd_power_t" type="text"
+      formControlName="sgd_power_t"></div>
+  <div class="input-div"><label for="sgd_early_stopping">early_stopping:</label><input id="sgd_early_stopping"
+      type="checkbox" formControlName="sgd_early_stopping"></div>
+  <div class="input-div"><label for="sgd_validation_fraction">validation_fraction:</label><input
+      id="sgd_validation_fraction" type="text" formControlName="sgd_validation_fraction"></div>
+  <div class="input-div"><label for="sgd_n_iter_no_change">n_iter_no_change:</label><input id="sgd_n_iter_no_change"
+      type="text" formControlName="sgd_n_iter_no_change"></div>
+  <div class="input-div"><label for="sgd_warm_start">warm_start:</label><input id="sgd_warm_start" type="checkbox"
+      formControlName="sgd_warm_start"></div>
+  <div class="input-div"><label for="sgd_average">average:</label><input id="sgd_average" type="text"
+      formControlName="sgd_average"></div>
+  <h2>Ada Boost</h2>
+  <div class="input-div">
+    <label for="ada-boost_criterion">criterion:</label>
+    <select id="ada-boost_criterion" formControlName="ada-boost_criterion" class="form-control">
+      <option *ngFor="let r of ['mse', 'friedman_mse', 'mae']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div">
+    <label for="ada-boost_splitter">splitter:</label>
+    <select id="ada-boost_splitter" formControlName="ada-boost_splitter" class="form-control">
+      <option *ngFor="let r of ['best', 'random']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div"><label for="ada-boost_max_depth">max_depth:</label><input id="ada-boost_max_depth" type="text"
+      formControlName="ada-boost_max_depth"></div>
+  <div class="input-div"><label for="ada-boost_min_samples_split">min_samples_split:</label><input
+      id="ada-boost_min_samples_split" type="text" formControlName="ada-boost_min_samples_split"></div>
+  <div class="input-div"><label for="ada-boost_min_samples_leaf">min_samples_leaf:</label><input
+      id="ada-boost_min_samples_leaf" type="text" formControlName="ada-boost_min_samples_leaf"></div>
+  <div class="input-div"><label for="ada-boost_min_weight_fraction_leaf">min_weight_fraction_leaf:</label><input
+      id="ada-boost_min_weight_fraction_leaf" type="text" formControlName="ada-boost_min_weight_fraction_leaf"></div>
+  <div class="input-div"><label for="ada-boost_max_features">max_features:</label><input id="ada-boost_max_features"
+      type="text" formControlName="ada-boost_max_features"></div>
+  <div class="input-div"><label for="ada-boost_max_leaf_nodes">max_leaf_nodes:</label><input
+      id="ada-boost_max_leaf_nodes" type="text" formControlName="ada-boost_max_leaf_nodes"></div>
+  <div class="input-div"><label for="ada-boost_min_impurity_decrease">min_impurity_decrease:</label><input
+      id="ada-boost_min_impurity_decrease" type="text" formControlName="ada-boost_min_impurity_decrease"></div>
+  <div class="input-div"><label for="ada-boost_min_impurity_split">min_impurity_split:</label><input
+      id="ada-boost_min_impurity_split" type="text" formControlName="ada-boost_min_impurity_split"></div>
+  <div class="input-div"><label for="ada-boost_ccp_alpha">ccp_alpha:</label><input id="ada-boost_ccp_alpha" type="text"
+      formControlName="ada-boost_ccp_alpha"></div>
+  <div class="input-div"><label for="ada-boost_n_estimators">n_estimators:</label><input id="ada-boost_n_estimators"
+      type="text" formControlName="ada-boost_n_estimators"></div>
+  <div class="input-div"><label for="ada-boost_learning_rate">learning_rate:</label><input id="ada-boost_learning_rate"
+      type="text" formControlName="ada-boost_learning_rate"></div>
+
+
+  <div class="input-div">
+    <label for="ada-boost_loss">loss:</label>
+    <select id="ada-boost_loss" formControlName="ada-boost_loss" class="form-control">
+      <option *ngFor="let r of ['linear', 'square', 'exponential']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <h2>Random Forest</h2>
+  <div class="input-div"><label for="random-forest_n_estimators">n_estimators:</label><input
+      id="random-forest_n_estimators" type="text" formControlName="random-forest_n_estimators"></div>
+
+  <div class="input-div">
+    <label for="random-forest_criterion">criterion:</label>
+    <select id="random-forest_criterion" formControlName="random-forest_criterion" class="form-control">
+      <option *ngFor="let r of ['mse', 'mae']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div"><label for="random-forest_max_depth">max_depth:</label><input id="random-forest_max_depth"
+      type="text" formControlName="random-forest_max_depth"></div>
+  <div class="input-div"><label for="random-forest_min_samples_split">min_samples_split:</label><input
+      id="random-forest_min_samples_split" type="text" formControlName="random-forest_min_samples_split"></div>
+  <div class="input-div"><label for="random-forest_min_samples_leaf">min_samples_leaf:</label><input
+      id="random-forest_min_samples_leaf" type="text" formControlName="random-forest_min_samples_leaf"></div>
+  <div class="input-div"><label for="random-forest_min_weight_fraction_leaf">min_weight_fraction_leaf:</label><input
+      id="random-forest_min_weight_fraction_leaf" type="text" formControlName="random-forest_min_weight_fraction_leaf">
+  </div>
+  <div class="input-div"><label for="random-forest_max_features">max_features:</label><input
+      id="random-forest_max_features" type="text" formControlName="random-forest_max_features"></div>
+  <div class="input-div"><label for="random-forest_max_leaf_nodes">max_leaf_nodes:</label><input
+      id="random-forest_max_leaf_nodes" type="text" formControlName="random-forest_max_leaf_nodes"></div>
+  <div class="input-div"><label for="random-forest_min_impurity_decrease">min_impurity_decrease:</label><input
+      id="random-forest_min_impurity_decrease" type="text" formControlName="random-forest_min_impurity_decrease"></div>
+  <div class="input-div"><label for="random-forest_min_impurity_split">min_impurity_split:</label><input
+      id="random-forest_min_impurity_split" type="text" formControlName="random-forest_min_impurity_split"></div>
+  <div class="input-div"><label for="random-forest_bootstrap">bootstrap:</label><input id="random-forest_bootstrap"
+      type="checkbox" formControlName="random-forest_bootstrap"></div>
+  <div class="input-div"><label for="random-forest_oob_score">oob_score:</label><input id="random-forest_oob_score"
+      type="checkbox" formControlName="random-forest_oob_score"></div>
+  <div class="input-div"><label for="random-forest_n_jobs">n_jobs:</label><input id="random-forest_n_jobs" type="text"
+      formControlName="random-forest_n_jobs"></div>
+  <div class="input-div"><label for="random-forest_verbose">verbose:</label><input id="random-forest_verbose"
+      type="text" formControlName="random-forest_verbose"></div>
+  <div class="input-div"><label for="random-forest_warm_start">warm_start:</label><input id="random-forest_warm_start"
+      type="checkbox" formControlName="random-forest_warm_start"></div>
+  <div class="input-div"><label for="random-forest_ccp_alpha">ccp_alpha:</label><input id="random-forest_ccp_alpha"
+      type="text" formControlName="random-forest_ccp_alpha"></div>
+  <div class="input-div"><label for="random-forest_max_samples">max_samples:</label><input
+      id="random-forest_max_samples" type="text" formControlName="random-forest_max_samples"></div>
+
+  <h2>Multi-layer Perceptron</h2>
+  <div class="input-div"><label for="mlp_hidden_layer_sizes">hidden_layer_sizes:</label><input
+      id="mlp_hidden_layer_sizes" type="text" formControlName="mlp_hidden_layer_sizes"></div>
+
+  <div class="input-div">
+    <label for="mlp_activation">activation:</label>
+    <select id="mlp_activation" formControlName="mlp_activation" class="form-control">
+      <option *ngFor="let r of ['identity', 'logistic', 'tanh', 'relu']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+
+
+  <div class="input-div">
+    <label for="mlp_solver">solver:</label>
+    <select id="mlp_solver" formControlName="mlp_solver" class="form-control">
+      <option *ngFor="let r of ['lbfgs', 'sgd', 'adam']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div"><label for="mlp_alpha">alpha:</label><input id="mlp_alpha" type="text"
+      formControlName="mlp_alpha">
+  </div>
+  <div class="input-div"><label for="mlp_batch_size">batch_size:</label><input id="mlp_batch_size" type="text"
+      formControlName="mlp_batch_size"></div>
+
+  <div class="input-div">
+    <label for="mlp_learning_rate">learning_rate:</label>
+    <select id="mlp_learning_rate" formControlName="mlp_learning_rate" class="form-control">
+      <option *ngFor="let r of ['constant', 'invscaling', 'adaptive']" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div"><label for="mlp_learning_rate_init">learning_rate_init:</label><input
+      id="mlp_learning_rate_init" type="text" formControlName="mlp_learning_rate_init"></div>
+  <div class="input-div"><label for="mlp_power_t">power_t:</label><input id="mlp_power_t" type="text"
+      formControlName="mlp_power_t"></div>
+  <div class="input-div"><label for="mlp_max_iter">max_iter:</label><input id="mlp_max_iter" type="text"
+      formControlName="mlp_max_iter"></div>
+  <div class="input-div"><label for="mlp_shuffle">shuffle:</label><input id="mlp_shuffle" type="checkbox"
+      formControlName="mlp_shuffle"></div>
+  <div class="input-div"><label for="mlp_tol">tol:</label><input id="mlp_tol" type="text" formControlName="mlp_tol">
+  </div>
+  <div class="input-div"><label for="mlp_verbose">verbose:</label><input id="mlp_verbose" type="checkbox"
+      formControlName="mlp_verbose"></div>
+  <div class="input-div"><label for="mlp_warm_start">warm_start:</label><input id="mlp_warm_start" type="checkbox"
+      formControlName="mlp_warm_start"></div>
+  <div class="input-div"><label for="mlp_momentum">momentum:</label><input id="mlp_momentum" type="text"
+      formControlName="mlp_momentum"></div>
+  <div class="input-div"><label for="mlp_nesterovs_momentum">nesterovs_momentum:</label><input
+      id="mlp_nesterovs_momentum" type="checkbox" formControlName="mlp_nesterovs_momentum"></div>
+  <div class="input-div"><label for="mlp_early_stopping">early_stopping:</label><input id="mlp_early_stopping"
+      type="checkbox" formControlName="mlp_early_stopping"></div>
+  <div class="input-div"><label for="mlp_validation_fraction">validation_fraction:</label><input
+      id="mlp_validation_fraction" type="text" formControlName="mlp_validation_fraction"></div>
+  <div class="input-div"><label for="mlp_beta_1">beta_1:</label><input id="mlp_beta_1" type="text"
+      formControlName="mlp_beta_1"></div>
+  <div class="input-div"><label for="mlp_beta_2">beta_2:</label><input id="mlp_beta_2" type="text"
+      formControlName="mlp_beta_2"></div>
+  <div class="input-div"><label for="mlp_epsilon">epsilon:</label><input id="mlp_epsilon" type="text"
+      formControlName="mlp_epsilon"></div>
+  <div class="input-div"><label for="mlp_n_iter_no_change">n_iter_no_change:</label><input id="mlp_n_iter_no_change"
+      type="text" formControlName="mlp_n_iter_no_change"></div>
+  <div class="input-div"><label for="mlp_max_fun">max_fun:</label><input id="mlp_max_fun" type="text"
+      formControlName="mlp_max_fun"></div>
+  <br>
+  <br>
+  <button class="button" type="submit">Compute</button>
+
+</form>
+
+<div *ngIf="output!=null && output.stats_per_processor!=null">
+  <h2>All predictions</h2>
+  <p><a target="_blank" rel="noopener"
+      [href]="apiUrl + '/algorithms/file?path=' + output.prediction_test_output_path">Download test
+      predictions</a></p>
+  <p><a target="_blank" rel="noopener"
+      [href]="apiUrl + '/algorithms/file?path=' + output.prediction_train_output_path">Download train
+      predictions</a></p>
+
+  <div *ngFor="let item of output.stats_per_processor| keyvalue: keyDescOrder">
+    <h2>{{item.key}}</h2>
+    <div *ngIf="item.key=='General regression neural network'">
+      <p><b> Time: </b>{{item.value.job_duration}}</p>
+      <div>
+        <b>Testing Errors</b>
+        <p><b>Mean absolute percentage: </b>{{item.value.testing_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{item.value.testing_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{item.value.testing_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error:
+          </b>{{item.value.testing_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{item.value.testing_errors.mean_absolute_error}}</p>
+        <a target="_blank" rel="noopener"
+          [href]="apiUrl + '/algorithms/file?path=' + output.test_prediction_out">Download predictions</a>
+      </div>
+    </div>
+    <div *ngIf="item.key!='General regression neural network'">
+      <div>
+        <b>Training Errors</b>
+        <p><b>Mean absolute percentage: </b>{{item.value.training_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{item.value.training_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{item.value.training_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error:
+          </b>{{item.value.training_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{item.value.training_errors.mean_absolute_error}}</p>
+      </div>
+
+      <div>
+        <b>Testing Errors</b>
+        <p><b>Mean absolute percentage: </b>{{item.value.testing_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{item.value.testing_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{item.value.testing_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error:
+          </b>{{item.value.testing_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{item.value.testing_errors.mean_absolute_error}}</p>
+      </div>
+      <p><a target="_blank" rel="noopener"
+          [href]="apiUrl + '/algorithms/file?path=' + item.value.prediction_test_output_path">Download test
+          predictions</a></p>
+      <p><a target="_blank" rel="noopener"
+          [href]="apiUrl + '/algorithms/file?path=' + item.value.prediction_train_output_path">Download train
+          predictions</a></p>
+
+    </div>
+  </div>
+
+
+</div>

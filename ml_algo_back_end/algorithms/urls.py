@@ -12,5 +12,9 @@ urlpatterns = [
     path('ada-boost', views.process_ada_boost, name='ada-boost'),
     path('random-forest', views.process_random_forest, name='random-forest'),
     path('mlp', views.process_mlp, name='mlp'),
+    path('all', views.process_all_algos, name='all'),
+    path('file', views.download_file, name='file'),
+    path('list-uploads', views.list_uploads, name='list-uploads'),
+    path('upload', views.upload_file, name='upload'),
 ]
 

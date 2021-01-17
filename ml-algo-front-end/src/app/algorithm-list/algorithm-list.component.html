@@ -1,0 +1,4 @@
+<div  *ngFor="let item of algorithms">
+    <a class = "algo-item" [title]="item.name + ' description'" [routerLink]="['/' + item.route]">{{item.name}}</a>
+</div>
+

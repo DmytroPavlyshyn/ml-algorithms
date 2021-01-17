@@ -1,0 +1,114 @@
+<h1>Random Forest</h1>
+<div>
+    <form [formGroup]="randomForestForm" (ngSubmit)="onSubmit(randomForestForm.value)">
+        <div class="input-div">
+            <label for="train_path">
+                Train path:
+            </label>
+            <select id="train_path" formControlName="train_path" class="form-control">
+                <option *ngFor="let r of listUploads" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-div">
+            <label for="test_path">
+                Test path:
+            </label>
+            <select id="test_path" formControlName="test_path" class="form-control">
+                <option *ngFor="let r of listUploads" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-div"><label for="n_estimators">n_estimators:</label><input id="n_estimators" type="text"
+                formControlName="n_estimators"></div>
+        
+        <div class="input-div">
+            <label for="criterion">criterion:</label>
+            <select id="criterion" formControlName="criterion" class="form-control">
+                <option *ngFor="let r of ['mse', 'mae']" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-div"><label for="max_depth">max_depth:</label><input id="max_depth" type="text"
+                formControlName="max_depth"></div>
+        <div class="input-div"><label for="min_samples_split">min_samples_split:</label><input id="min_samples_split"
+                type="text" formControlName="min_samples_split"></div>
+        <div class="input-div"><label for="min_samples_leaf">min_samples_leaf:</label><input id="min_samples_leaf"
+                type="text" formControlName="min_samples_leaf"></div>
+        <div class="input-div"><label for="min_weight_fraction_leaf">min_weight_fraction_leaf:</label><input
+                id="min_weight_fraction_leaf" type="text" formControlName="min_weight_fraction_leaf"></div>
+        <div class="input-div"><label for="max_features">max_features:</label><input id="max_features" type="text"
+                formControlName="max_features"></div>
+        <div class="input-div"><label for="max_leaf_nodes">max_leaf_nodes:</label><input id="max_leaf_nodes" type="text"
+                formControlName="max_leaf_nodes"></div>
+        <div class="input-div"><label for="min_impurity_decrease">min_impurity_decrease:</label><input
+                id="min_impurity_decrease" type="text" formControlName="min_impurity_decrease"></div>
+        <div class="input-div"><label for="min_impurity_split">min_impurity_split:</label><input id="min_impurity_split"
+                type="text" formControlName="min_impurity_split"></div>
+        <div class="input-div"><label for="bootstrap">bootstrap:</label><input id="bootstrap" type="checkbox"
+                formControlName="bootstrap"></div>
+        <div class="input-div"><label for="oob_score">oob_score:</label><input id="oob_score" type="checkbox"
+                formControlName="oob_score"></div>
+        <div class="input-div"><label for="n_jobs">n_jobs:</label><input id="n_jobs" type="text"
+                formControlName="n_jobs"></div>
+        <div class="input-div"><label for="verbose">verbose:</label><input id="verbose" type="text"
+                formControlName="verbose"></div>
+        <div class="input-div"><label for="warm_start">warm_start:</label><input id="warm_start" type="checkbox"
+                formControlName="warm_start"></div>
+        <div class="input-div"><label for="ccp_alpha">ccp_alpha:</label><input id="ccp_alpha" type="text"
+                formControlName="ccp_alpha"></div>
+        <div class="input-div"><label for="max_samples">max_samples:</label><input id="max_samples" type="text"
+                formControlName="max_samples"></div>
+
+        <div class="input-div">
+            <label for="use_wiener">
+                 nonlinear inputs extension:
+            </label>
+            <input id="use_wiener" type="checkbox" formControlName="use_wiener">
+        </div>
+
+        <div class="input-div">
+            <label for="wiener_n">
+                wiener n:
+            </label>
+            <input id="wiener_n" type="number" formControlName="wiener_n" ng-pattern="/^-?[0-9][^\.]*$/">
+        </div>
+        <button class="button" type="submit">Compute</button>
+
+    </form>
+</div>
+
+<div *ngIf="output!=null">
+    <p><b> Time: </b>{{output.job_duration}}</p>
+    <div>
+        <b>Training Errors</b>
+        <p><b>Mean absolute percentage: </b>{{output.training_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{output.training_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{output.training_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error:
+            </b>{{output.training_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{output.training_errors.mean_absolute_error}}</p>
+    </div>
+
+    <div>
+        <b>Testing Errors</b>
+        <p><b>Mean absolute percentage: </b>{{output.testing_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{output.testing_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{output.testing_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error:
+            </b>{{output.testing_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{output.testing_errors.mean_absolute_error}}</p>
+    </div>
+    <p><a target="_blank" rel="noopener"
+            [href]="apiUrl + '/algorithms/file?path=' + output.prediction_test_output_path">Download test
+            predictions</a></p>
+    <p><a target="_blank" rel="noopener"
+            [href]="apiUrl + '/algorithms/file?path=' + output.prediction_train_output_path">Download train
+            predictions</a></p>
+</div>

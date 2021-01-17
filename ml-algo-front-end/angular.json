@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ml-algo-front-end"
+    }
+  },
+  "defaultProject": "ml-algo-front-end",
+  "cli": {
+    "analytics": false
+  }
 }

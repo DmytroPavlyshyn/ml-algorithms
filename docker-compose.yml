@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  mlbackend:
+    image: mlbackend
+    ports:
+      - "8000:8000"
+  mlfrontend:
+    image: mlfrontend
+    ports:
+      - "4200:4200"
+
+    depends_on: 
+        - mlbackend

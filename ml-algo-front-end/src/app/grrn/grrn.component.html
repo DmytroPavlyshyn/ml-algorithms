@@ -1,0 +1,65 @@
+<h1>General regression neural network</h1>
+<form [formGroup]="grrnForm" (ngSubmit)="onSubmit(grrnForm.value)">
+
+  <div class="input-div">
+    <label for="train_path">
+      Train path:
+    </label>
+    <select id="train_path" formControlName="train_path" class="form-control">
+      <option *ngFor="let r of listUploads" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+  <div class="input-div">
+    <label for="test_path">
+      Test path:
+    </label>
+    <select id="test_path" formControlName="test_path" class="form-control">
+      <option *ngFor="let r of listUploads" [value]="r">
+        {{r}}
+      </option>
+    </select>
+  </div>
+
+
+  <div class="input-div">
+    <label for="sigma">
+      Sigma:
+    </label>
+    <input id="sigma" type="number" formControlName="sigma">
+  </div>
+
+
+  <div class="input-div"> 
+    <label for="use_wiener">
+       nonlinear inputs extension:
+    </label>
+    <input id="use_wiener" type="checkbox" formControlName="use_wiener">
+  </div>
+  
+  <div class="input-div">
+    <label for="wiener_n">
+      wiener n:
+    </label>
+    <input id="wiener_n" type="number"  formControlName="wiener_n" ng-pattern="/^-?[0-9][^\.]*$/">
+  </div>
+
+  <button class="button" type="submit">Compute</button>
+
+</form>
+
+<div *ngIf="output!=null">
+    <p><b> Time: </b>{{output.job_duration}}</p> 
+    <div>
+        <b>Testing Errors</b>
+        <p><b>Mean absolute percentage: </b>{{output.testing_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{output.testing_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{output.testing_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error: </b>{{output.testing_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{output.testing_errors.mean_absolute_error}}</p>
+
+        <a   target="_blank" rel="noopener" [href]="apiUrl + '/algorithms/file?path=' + output.test_prediction_out">Download predictions</a>
+      </div>
+</div>

@@ -1,0 +1,134 @@
+<h1>Stochastic Gradient Descent</h1>
+<div>
+    <form [formGroup]="sgdForm" (ngSubmit)="onSubmit(sgdForm.value)">
+        <div class="input-div">
+            <label for="train_path">
+                Train path:
+            </label>
+            <select id="train_path" formControlName="train_path" class="form-control">
+                <option *ngFor="let r of listUploads" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-div">
+            <label for="test_path">
+                Test path:
+            </label>
+            <select id="test_path" formControlName="test_path" class="form-control">
+                <option *ngFor="let r of listUploads" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-div">
+            <label for="loss">loss:</label>
+            <select id="loss" formControlName="loss" class="form-control">
+                <option *ngFor="let r of ['squared_loss','huber', 'epsilon_insensitive',  'squared_epsilon_insensitive']" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-div">
+            <label for="penalty">penalty:</label>
+            <select id="penalty" formControlName="penalty" class="form-control">
+                <option *ngFor="let r of ['l2', 'l1', 'elasticnet']" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+        
+
+        <div class="input-div"><label for="alpha">alpha:</label><input id="alpha" type="text" formControlName="alpha">
+        </div>
+        <div class="input-div"><label for="l1_ratio">l1_ratio:</label><input id="l1_ratio" type="text"
+                formControlName="l1_ratio"></div>
+        <div class="input-div"><label for="fit_intercept">fit_intercept:</label><input id="fit_intercept" type="checkbox"
+                formControlName="fit_intercept"></div>
+        <div class="input-div"><label for="max_iter">max_iter:</label><input id="max_iter" type="text"
+                formControlName="max_iter"></div>
+        <div class="input-div"><label for="tol">tol:</label><input id="tol" type="text" formControlName="tol"></div>
+        <div class="input-div"><label for="shuffle">shuffle:</label><input id="shuffle" type="checkbox"
+                formControlName="shuffle"></div>
+        <div class="input-div"><label for="verbose">verbose:</label><input id="verbose" type="text"
+                formControlName="verbose"></div>
+        <div class="input-div"><label for="epsilon">epsilon:</label><input id="epsilon" type="text"
+                formControlName="epsilon"></div>
+
+
+        <div class="input-div">
+            <label for="learning_rate">learning_rate:</label>
+            <select id="learning_rate" formControlName="learning_rate" class="form-control">
+                <option *ngFor="let r of ['constant','optimal','invscaling', 'adaptive']" [value]="r">
+                    {{r}}
+                </option>
+            </select>
+        </div>
+                
+
+        <div class="input-div"><label for="eta0">eta0:</label><input id="eta0" type="text" formControlName="eta0"></div>
+        <div class="input-div"><label for="power_t">power_t:</label><input id="power_t" type="text"
+                formControlName="power_t"></div>
+        <div class="input-div"><label for="early_stopping">early_stopping:</label><input id="early_stopping" type="checkbox"
+                formControlName="early_stopping"></div>
+        <div class="input-div"><label for="validation_fraction">validation_fraction:</label><input
+                id="validation_fraction" type="text" formControlName="validation_fraction"></div>
+        <div class="input-div"><label for="n_iter_no_change">n_iter_no_change:</label><input id="n_iter_no_change"
+                type="text" formControlName="n_iter_no_change"></div>
+        <div class="input-div"><label for="warm_start">warm_start:</label><input id="warm_start" type="checkbox"
+                formControlName="warm_start"></div>
+        <div class="input-div"><label for="average">average:</label><input id="average" type="text"
+                formControlName="average"></div>
+
+        <div class="input-div">
+            <label for="use_wiener">
+                 nonlinear inputs extension:
+            </label>
+            <input id="use_wiener" type="checkbox" formControlName="use_wiener">
+        </div>
+
+        <div class="input-div">
+            <label for="wiener_n">
+                wiener n:
+            </label>
+            <input id="wiener_n" type="number" formControlName="wiener_n" ng-pattern="/^-?[0-9][^\.]*$/">
+        </div>
+
+
+        <button class="button" type="submit">Compute</button>
+
+    </form>
+</div>
+
+<div *ngIf="output!=null">
+    <p><b> Time: </b>{{output.job_duration}}</p>
+    <div>
+        <b>Training Errors</b>
+        <p><b>Mean absolute percentage: </b>{{output.training_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{output.training_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{output.training_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error:
+            </b>{{output.training_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{output.training_errors.mean_absolute_error}}</p>
+    </div>
+
+    <div>
+        <b>Testing Errors</b>
+        <p><b>Mean absolute percentage: </b>{{output.testing_errors.mean_absolute_percentage}}</p>
+        <p><b>Root mean squared: </b>{{output.testing_errors.root_mean_squared}}</p>
+        <p><b>Sum of squared errors: </b>{{output.testing_errors.sum_of_squared_errors}}</p>
+        <p><b>Symmetric mean absolute percentage error:
+            </b>{{output.testing_errors.symmetric_mean_absolute_percentage_error}}</p>
+        <p><b>Mean absolute error: </b>{{output.testing_errors.mean_absolute_error}}</p>
+    </div>
+    <p><a target="_blank" rel="noopener"
+            [href]="apiUrl + '/algorithms/file?path=' + output.prediction_test_output_path">Download test
+            predictions</a></p>
+    <p><a target="_blank" rel="noopener"
+            [href]="apiUrl + '/algorithms/file?path=' + output.prediction_train_output_path">Download train
+            predictions</a></p>
+
+</div>
