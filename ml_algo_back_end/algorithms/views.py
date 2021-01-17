@@ -5,7 +5,10 @@ import os
 from os import listdir
 from os.path import join
 
+from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 from .core import *
 from .forms import *
@@ -13,6 +16,7 @@ from .serializers import *
 from .translators import *
 
 
+@permission_classes((IsAuthenticated, ))
 def process_grrn(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -31,6 +35,7 @@ def process_grrn(request):
     return HttpResponseBadRequest()
 
 
+@permission_classes((IsAuthenticated, ))
 def process_svr(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -52,6 +57,7 @@ def process_svr(request):
     return HttpResponseBadRequest()
 
 
+@permission_classes((IsAuthenticated, ))
 def process_sgd(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -71,6 +77,7 @@ def process_sgd(request):
     return HttpResponseBadRequest()
 
 
+@permission_classes((IsAuthenticated, ))
 def process_ada_boost(request):
     # if this is a POST request we need to process the form data
     form = None
@@ -93,6 +100,7 @@ def process_ada_boost(request):
     return HttpResponseBadRequest()
 
 
+@permission_classes((IsAuthenticated, ))
 def process_random_forest(request):
     # if this is a POST request we need to process the form data
     form = None
@@ -114,6 +122,7 @@ def process_random_forest(request):
     return HttpResponseBadRequest()
 
 
+@permission_classes((IsAuthenticated, ))
 def process_mlp(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -134,6 +143,7 @@ def process_mlp(request):
     return HttpResponseBadRequest()
 
 
+@permission_classes((IsAuthenticated, ))
 def process_all_algos(request):
     all_propcessors = {
         "grrn": {'form': GrrnForm, 'translator': translate_grrm},
@@ -160,6 +170,7 @@ def process_all_algos(request):
     return HttpResponseBadRequest()
 
 
+# @permission_classes((IsAuthenticated, ))
 def upload_file(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -176,6 +187,7 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 
+@permission_classes((IsAuthenticated, ))
 def download_file(request):
     path = request.GET['path']
 
@@ -187,6 +199,7 @@ def download_file(request):
     return HttpResponseBadRequest()
 
 
+@permission_classes((IsAuthenticated, ))
 def list_uploads(request):
     files = [join(settings.UPLOADS_ROOT, f) for f in listdir(settings.UPLOADS_ROOT)]
     return JsonResponse({'files': files})

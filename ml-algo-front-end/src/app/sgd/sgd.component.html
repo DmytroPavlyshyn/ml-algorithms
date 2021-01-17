@@ -1,4 +1,4 @@
-<h1>Stochastic Gradient Descent</h1>
+<h1 appProtected>Stochastic Gradient Descent</h1>
 <div>
     <form [formGroup]="sgdForm" (ngSubmit)="onSubmit(sgdForm.value)">
         <div class="input-div">
@@ -40,7 +40,7 @@
                 </option>
             </select>
         </div>
-        
+
 
         <div class="input-div"><label for="alpha">alpha:</label><input id="alpha" type="text" formControlName="alpha">
         </div>
@@ -67,7 +67,7 @@
                 </option>
             </select>
         </div>
-                
+
 
         <div class="input-div"><label for="eta0">eta0:</label><input id="eta0" type="text" formControlName="eta0"></div>
         <div class="input-div"><label for="power_t">power_t:</label><input id="power_t" type="text"

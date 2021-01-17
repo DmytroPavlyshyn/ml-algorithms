@@ -1,5 +1,6 @@
+
 <h1>Ada Boost</h1>
-<div>
+<div appProtected>
     <form [formGroup]="adaBoostForm" (ngSubmit)="onSubmit(adaBoostForm.value)">
         <div class="input-div">
             <label for="train_path">
@@ -40,7 +41,7 @@
                 </option>
             </select>
         </div>
-        
+
         <div class="input-div"><label for="max_depth">max_depth:</label><input id="max_depth" type="text"
                 formControlName="max_depth"></div>
         <div class="input-div"><label for="min_samples_split">min_samples_split:</label><input id="min_samples_split"
@@ -63,8 +64,8 @@
                 formControlName="n_estimators"></div>
         <div class="input-div"><label for="learning_rate">learning_rate:</label><input id="learning_rate" type="text"
                 formControlName="learning_rate"></div>
-        
-        
+
+
         <div class="input-div">
             <label for="loss">loss:</label>
             <select id="loss" formControlName="loss" class="form-control">
@@ -73,7 +74,7 @@
                 </option>
             </select>
         </div>
-        
+
         <div class="input-div">
             <label for="use_wiener">
                  nonlinear inputs extension:

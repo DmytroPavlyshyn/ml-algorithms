@@ -1,6 +1,8 @@
 """ Translators are used to cast parameters
 that can have more than one language specific type
 """
+
+
 def translate_grrm(form):
     return form
 
@@ -66,6 +68,7 @@ def translate_mlp(form):
         [int, str]
     )
     return form
+
 
 def try_cast(_fun, _el: str):
     if _el is None:

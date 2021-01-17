@@ -1,4 +1,4 @@
-<h1>Multi-layer Perceptron</h1>
+<h1 appProtected>Multi-layer Perceptron</h1>
 <div>
     <form [formGroup]="mlpForm" (ngSubmit)="onSubmit(mlpForm.value)">
 
@@ -37,7 +37,7 @@
         </div>
 
 
-        
+
         <div class="input-div">
             <label for="solver">solver:</label>
             <select id="solver" formControlName="solver" class="form-control">
@@ -51,7 +51,7 @@
         </div>
         <div class="input-div"><label for="batch_size">batch_size:</label><input id="batch_size" type="text"
                 formControlName="batch_size"></div>
-        
+
         <div class="input-div">
             <label for="learning_rate">learning_rate:</label>
             <select id="learning_rate" formControlName="learning_rate" class="form-control">

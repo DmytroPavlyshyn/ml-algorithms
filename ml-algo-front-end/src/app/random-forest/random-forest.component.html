@@ -1,4 +1,4 @@
-<h1>Random Forest</h1>
+<h1 appProtected>Random Forest</h1>
 <div>
     <form [formGroup]="randomForestForm" (ngSubmit)="onSubmit(randomForestForm.value)">
         <div class="input-div">
@@ -25,7 +25,7 @@
 
         <div class="input-div"><label for="n_estimators">n_estimators:</label><input id="n_estimators" type="text"
                 formControlName="n_estimators"></div>
-        
+
         <div class="input-div">
             <label for="criterion">criterion:</label>
             <select id="criterion" formControlName="criterion" class="form-control">

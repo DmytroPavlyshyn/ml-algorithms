@@ -1,8 +1,10 @@
-<a [routerLink]="['/']">
-    <h1>Machine Learning Algorithms</h1>
+<a [routerLink]="['/']" xmlns="http://www.w3.org/1999/html">
+  <h1>Machine Learning Algorithms</h1>
 </a>
 <div class="form-group file-upload">
     <label for="file" class = "file-upload__label">Choose File</label>
     <input class="file-upload__input" type="file" id="file" (change)="handleFileInput($event.target.files)">
     <button class="uppload-button" type="submit" (click) = "onSubmit()">Upload</button>
+  <input id="logout"  type="button" name="Log out" (click)="logout()">
+
 </div>

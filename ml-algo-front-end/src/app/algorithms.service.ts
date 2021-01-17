@@ -1,12 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import { environment } from '../environments/environment';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../environments/environment';
+import {UserService} from './user.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlgorithmsService<T> {
 
   headers;
@@ -14,10 +11,14 @@ export class AlgorithmsService<T> {
 
   constructor(
     private http: HttpClient,
+    private userService: UserService
   ) {
+    userService.updateTokenFromCookie();
     this.apiUrl = environment.apiUrl;
     this.headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: 'JWT ' + this.userService.token
+
     });
   }
 
@@ -36,13 +37,16 @@ export class AlgorithmsService<T> {
     return this.http
       .post(`${this.apiUrl}/algorithms/upload`, formData,
         {
+          headers: new HttpHeaders({
+            Authorization: 'JWT ' + this.userService.token
+          }),
           responseType: 'text'
         }
       );
   }
 
   listUploads() {
-    return this.http.get(`${this.apiUrl}/algorithms/list-uploads`);
+    return this.http.get(`${this.apiUrl}/algorithms/list-uploads`, {headers: this.headers});
   }
 
 }

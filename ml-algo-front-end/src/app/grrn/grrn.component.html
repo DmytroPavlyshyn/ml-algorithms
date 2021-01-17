@@ -1,4 +1,4 @@
-<h1>General regression neural network</h1>
+<h1 appProtected>General regression neural network</h1>
 <form [formGroup]="grrnForm" (ngSubmit)="onSubmit(grrnForm.value)">
 
   <div class="input-div">
@@ -32,13 +32,13 @@
   </div>
 
 
-  <div class="input-div"> 
+  <div class="input-div">
     <label for="use_wiener">
        nonlinear inputs extension:
     </label>
     <input id="use_wiener" type="checkbox" formControlName="use_wiener">
   </div>
-  
+
   <div class="input-div">
     <label for="wiener_n">
       wiener n:
@@ -51,7 +51,7 @@
 </form>
 
 <div *ngIf="output!=null">
-    <p><b> Time: </b>{{output.job_duration}}</p> 
+    <p><b> Time: </b>{{output.job_duration}}</p>
     <div>
         <b>Testing Errors</b>
         <p><b>Mean absolute percentage: </b>{{output.testing_errors.mean_absolute_percentage}}</p>

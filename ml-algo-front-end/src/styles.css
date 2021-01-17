@@ -8,52 +8,52 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   body {
     margin: 0;
   }
-  
+
   .container {
     display: flex;
     flex-direction: row;
   }
-  
+
   router-outlet + *  {
     padding: 0 16px;
   }
-  
+
   /* Text */
-  
+
   h1 {
     font-size: 32px;
   }
-  
+
   h2 {
     font-size: 20px;
   }
-  
+
   h1, h2 {
     font-weight: lighter;
   }
-  
+
   p {
     font-size: 14px;
   }
-  
+
   /* Hyperlink */
-  
+
   a {
     cursor: pointer;
     color: #1976d2;
     text-decoration: none;
   }
-  
+
   a:hover {
     opacity: 0.8;
   }
-  
+
   /* Input */
-  
+
   input, select {
     font-size: 14px;
     padding: 8px;
@@ -61,7 +61,7 @@
 
     /* border: 1px solid #BDBDBD; */
 
-    display: inline-block; 
+    display: inline-block;
     vertical-align: middle;
     border-radius: 4px;
 
@@ -70,15 +70,15 @@
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
     transition: border .2s linear,box-shadow .2s linear;
   }
-  
+
   label {
     font-size: 12px;
     font-weight: bold;
     margin-left: 4px;
     text-transform: uppercase;
-    display: inline-block; 
+    display: inline-block;
   }
-  
+
   /* Button */
   .button, button {
     margin-left: 4px;
@@ -106,13 +106,12 @@
       color: white;
       border: none;
     }
-  
 
-    ******************************************/
+
     .file-upload {
       position: relative;
     }
-    
+
     .file-upload__label {
       padding: 1em 2em;
       color: #fff;
@@ -138,26 +137,26 @@
     opacity: 0.8;
     font-weight: normal;
   }
-  
+
   .button:disabled, button:disabled {
     opacity: 0.5;
     cursor: auto;
   }
-  
+
   /* Fancy Button */
-  
+
   .fancy-button {
     background-color: white;
     color: #1976d2;
   }
-  
+
   .fancy-button i.material-icons {
     color: #1976d2;
     padding-right: 4px;
   }
-  
+
   /* Top Bar */
-  
+
   app-top-bar {
     width: 100%;
     height: 68px;
@@ -168,14 +167,14 @@
     justify-content: space-between;
     align-items: center;
   }
-  
+
   app-top-bar h1 {
     color: white;
     margin: 0;
   }
-  
+
   /* Checkout Cart, Shipping Prices */
-  
+
   .cart-item, .shipping-item {
     width: 100%;
     min-width: 400px;
@@ -188,17 +187,17 @@
     border-radius: 2px;
     background-color: #EEEEEE;
   }
-  
-  
+
+
   td, th {
     border: 1px solid #ddd;
     padding: 8px;
   }
-  
+
   tr:nth-child(even){background-color: #f2f2f2;}
-  
+
   tr:hover {background-color: #ddd;}
-  
+
   th {
     padding-top: 12px;
     padding-bottom: 12px;
@@ -217,4 +216,3 @@
   Use of this source code is governed by an MIT-style license that
   can be found in the LICENSE file at http://angular.io/license
   */
-  

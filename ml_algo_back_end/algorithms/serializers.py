@@ -11,6 +11,7 @@ class BaseForm(serializers.Serializer):
 class GrrnForm(BaseForm):
     sigma = serializers.FloatField()
 
+
 class SvrForm(BaseForm):
     kernel = serializers.CharField(max_length=250, required=False)  # string
     gamma = serializers.CharField(max_length=250, required=False)  # string, float
@@ -110,4 +111,3 @@ class MlpForm(BaseForm):
     epsilon = serializers.FloatField(required=False)
     n_iter_no_change = serializers.IntegerField(required=False)
     max_fun = serializers.IntegerField(required=False)
-

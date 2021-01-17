@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AlgorithmsService } from '../algorithms.service';
+import {Component, OnInit} from '@angular/core';
+import {AlgorithmsService} from '../algorithms.service';
+import {UserService} from '../user.service';
+
+// import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -10,6 +13,7 @@ export class TopBarComponent implements OnInit {
 
   constructor(
     private algorithmsService: AlgorithmsService<Object>,
+    private userService: UserService
   ) { }
   fileToUpload: File = null;
 
@@ -23,5 +27,11 @@ export class TopBarComponent implements OnInit {
     this.algorithmsService.postFile(this.fileToUpload).subscribe(s => {
       console.log(s);
     });
+  }
+
+  logout() {
+    if (this.userService.isAuthenticated()) {
+      this.userService.logout();
+    }
   }
 }

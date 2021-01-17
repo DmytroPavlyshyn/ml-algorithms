@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from '../user.service';
 
 export interface AlgorithmNameRoute {
   name: string;
@@ -22,9 +23,10 @@ export class AlgorithmListComponent implements OnInit {
     { name: 'All algorithms', route: 'all-algos' },
   ];
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    console.log(this.userService.isAuthenticated());
   }
 
 }
