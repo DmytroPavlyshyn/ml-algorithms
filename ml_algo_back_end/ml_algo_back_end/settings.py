@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'algorithms.apps.AlgorithmsConfig',
+    'visualize.apps.VisualizeConfig',
     'auth.apps.AuthConfig',
 ]
 

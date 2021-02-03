@@ -59,7 +59,6 @@ class AdaBoostForm(BaseForm):
     max_leaf_nodes = serializers.IntegerField(required=False, allow_null=True)
     min_impurity_decrease = serializers.FloatField(required=False)
     min_impurity_split = serializers.FloatField(required=False, allow_null=True)
-    # DEPRECATED presort
     ccp_alpha = serializers.FloatField(required=False)  # float > 0.0
     n_estimators = serializers.IntegerField(required=False)
     learning_rate = serializers.FloatField(required=False)
@@ -71,7 +70,6 @@ class RandomForestForm(BaseForm):
     n_estimators = serializers.IntegerField(required=False)
     criterion = serializers.CharField(max_length=250, required=False)
     max_depth = serializers.IntegerField(required=False, allow_null=True)
-    # TODO LOGIC FOR FLOATS
     min_samples_split = serializers.CharField(max_length=250, required=False)  # int, float
     min_samples_leaf = serializers.CharField(max_length=250, required=False)  # int, float
     min_weight_fraction_leaf = serializers.FloatField(required=False)

@@ -5,7 +5,6 @@ import os
 from os import listdir
 from os.path import join
 
-from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
