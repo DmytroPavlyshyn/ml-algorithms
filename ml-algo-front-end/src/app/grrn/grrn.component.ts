@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { AlgorithmsService } from '../algorithms.service';
-import { Grrn } from './grrn';
-import { environment } from '../../environments/environment';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {AlgorithmsService} from '../algorithms.service';
+import {Grrn} from './grrn';
+import {environment} from '../../environments/environment';
+
 interface FilesListResp {
   files: Array<string>;
 }
@@ -24,7 +25,8 @@ export class GrrnComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private grrnService: AlgorithmsService<Grrn>,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.grrnForm = this.formBuilder.group({
@@ -45,7 +47,7 @@ export class GrrnComponent implements OnInit {
     if (!customerData) {
       return;
     }
-    const grrn: Grrn = { ...customerData };
+    const grrn: Grrn = {...customerData};
 
     this.grrnService.submit(grrn, 'grrn')
       .subscribe(output => {

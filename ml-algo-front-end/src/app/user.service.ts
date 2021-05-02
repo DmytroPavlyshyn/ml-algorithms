@@ -33,10 +33,11 @@ export class UserService {
     this.http.post(`${this.apiUrl}/api-token-auth/`, JSON.stringify(user), this.httpOptions).subscribe(
       data => {
         this.updateData(data['token']);
+        window.location.reload();
         return true;
       },
       err => {
-        this.errors = err['error'];
+        this.errors = err.error;
         return false;
       }
     );
@@ -58,8 +59,7 @@ export class UserService {
     this.tokenExpires = null;
     this.username = null;
     this.cookieService.delete(this.userTokenKey);
-    this.router.navigateByUrl('/login');
-
+    window.location.reload();
   }
 
   private parseToken(token: string) {

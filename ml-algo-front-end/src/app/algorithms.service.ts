@@ -18,7 +18,6 @@ export class AlgorithmsService<T> {
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: 'JWT ' + this.userService.token
-
     });
   }
 

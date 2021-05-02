@@ -36,8 +36,6 @@
             </select>
         </div>
 
-
-
         <div class="input-div">
             <label for="solver">solver:</label>
             <select id="solver" formControlName="solver" class="form-control">
@@ -113,7 +111,7 @@
 </div>
 
 <div *ngIf="output!=null">
-    <p><b> Time: </b>{{output.job_duration}}</p>
+    <p><b> Processing time: </b>{{output.job_duration}}</p>
     <div>
         <b>Training Errors</b>
         <p><b>Mean absolute percentage: </b>{{output.training_errors.mean_absolute_percentage}}</p>

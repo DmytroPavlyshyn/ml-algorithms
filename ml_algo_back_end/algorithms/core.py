@@ -9,7 +9,7 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 
 from ml_algo_back_end import settings
 from .wiener_polynom import WienerPolynomialFeatures
-
+from .factory import RegressorFactory
 wp_features = WienerPolynomialFeatures()
 
 
@@ -103,35 +103,42 @@ def save_df_to_file(df=pd.DataFrame()):
     return target_path
 
 
-class GRRNProcessor:
+class GenericProcessor:
 
-    def process(self, train_path: str, test_path: str, **kwargs):
-        dr = DataFrameReader(train_path, test_path)
-
-        sigma = kwargs['sigma']
-        grnn = GRNN(sigma=sigma)
+    def process(self, request):
+        regressor = RegressorFactory.create(request)
+        dr = DataFrameReader(request['train_path'], request['test_path'])
         start_time = time.time()
+        regressor.fit(dr.train_X, dr.train_y)
+        train_pred_y = regressor.predict(dr.train_X)
+        pred_y = regressor.predict(dr.test_X)
 
-        if kwargs['use_wiener']:
-            n = kwargs['wiener_n']
-            dr.test_X = wp_features.fit(dr.test_X, n)
-            dr.train_X = wp_features.fit(dr.train_X, n)
+        train_predictions = dr.train_X.copy()
+        train_predictions['predictions'] = train_pred_y
 
-        predictions = np.apply_along_axis(lambda i: grnn.predict(i, dr.train_X, dr.train_y), axis=1, arr=dr.test_X)
+        test_predictions = dr.test_X.copy()
+        test_predictions['predictions'] = pred_y
 
-        result = dr.test_X.copy()
-        result['predictions'] = predictions
+        prediction_train_output_path = save_df_to_file(train_predictions)
+        prediction_test_output_path = save_df_to_file(test_predictions)
 
-        test_prediction_out = save_df_to_file(result)
+        stats = dict()
+
+        stats['prediction_train_output_path'] = prediction_train_output_path
+        stats['prediction_test_output_path'] = prediction_test_output_path
+
+        stats['job_duration'] = time.time() - start_time
+
+        stats['training_errors'] = calculate_errors(dr.train_y, train_pred_y)
+        stats['testing_errors'] = calculate_errors(dr.test_y, pred_y)
+
+        stats['train_path'] = request['train_path']
+        stats['test_path'] = request['test_path']
+
         return {
-            'job_duration': time.time() - start_time,
-            'sigma': sigma,
-            'testing_errors': calculate_errors(dr.test_y, predictions),
-            'test_prediction_out': test_prediction_out,
-            'train_path': train_path,
-            'test_path': test_path,
+            'request': request,
+            'stats': stats
         }
-
 
 from sklearn.svm import SVR
 

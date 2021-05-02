@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
 
 export interface AlgorithmNameRoute {
@@ -14,16 +14,18 @@ export interface AlgorithmNameRoute {
 export class AlgorithmListComponent implements OnInit {
 
   algorithms: Array<AlgorithmNameRoute> = [
-    { name: 'General regression neural network', route: 'grrn' },
-    { name: 'Epsilon-Support Vector Regression', route: 'svr' },
-    { name: 'Stochastic Gradient Descent', route: 'sgd' },
-    { name: 'Ada Boost', route: 'ada-boost' },
-    { name: 'Random Forest', route: 'random-forest' },
-    { name: 'Multi-layer Perceptron', route: 'mlp' },
-    { name: 'All algorithms', route: 'all-algos' },
+    {name: 'Test Algo', route: 'test-algo'},
+    {name: 'General regression neural network', route: 'grrn'},
+    {name: 'Epsilon-Support Vector Regression', route: 'svr'},
+    {name: 'Stochastic Gradient Descent', route: 'sgd'},
+    {name: 'Adaptive Boosting', route: 'ada-boost'},
+    {name: 'Random forest', route: 'random-forest'},
+    {name: 'Multi-layer Perceptron', route: 'mlp'},
+    // { name: 'All algorithms', route: 'all-algos' },
   ];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit(): void {
     console.log(this.userService.isAuthenticated());

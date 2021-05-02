@@ -5,4 +5,3 @@ export interface Grrn {
     use_wiener: boolean;
     wiener_n: number;
 }
-    
