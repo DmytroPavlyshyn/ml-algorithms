@@ -3,6 +3,16 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+// Material section
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatInputModule} from '@angular/material/input';
 
 import {AppComponent} from './app.component';
 import {GrrnComponent} from './grrn/grrn.component';
@@ -25,6 +35,8 @@ import {AngularFileUploaderModule} from 'angular-file-uploader';
 import {MainComponent} from './main/main.component';
 import {RandomForestNewComponent} from './random-forest-new/random-forest-new.component';
 import {ScatterComponent} from './scatter/scatter.component';
+import { DatasetUploaderComponent } from './dataset/dataset-uploader/dataset-uploader.component';
+import {NgxFileDropModule} from "ngx-file-drop";
 
 @NgModule({
   declarations: [
@@ -44,16 +56,27 @@ import {ScatterComponent} from './scatter/scatter.component';
     TestAlgoComponent,
     MainComponent,
     RandomForestNewComponent,
-    ScatterComponent
+    ScatterComponent,
+    DatasetUploaderComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    AngularFileUploaderModule,
+    NgxFileDropModule,
+    // Material
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatInputModule,
     RouterModule.forRoot([
-      {path: '', component: MainComponent},
+      {path: '', component: AlgorithmListComponent},
       {path: 'algo-list', component: AlgorithmListComponent},
       {path: 'grrn', component: GrrnComponent},
       {path: 'test-algo', component: TestAlgoComponent},
@@ -64,6 +87,7 @@ import {ScatterComponent} from './scatter/scatter.component';
       {path: 'mlp', component: MlpComponent},
       {path: 'all-algos', component: AllAlgosComponent},
       {path: 'login', component: LoginComponent},
+      {path: 'upload', component: DatasetUploaderComponent},
     ], {relativeLinkResolution: 'legacy'}),
   ],
   providers: [UserService, AlgorithmsService, CookieService],

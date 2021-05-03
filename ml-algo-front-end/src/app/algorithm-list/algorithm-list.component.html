@@ -1,4 +1,4 @@
-<div class="algo-list" *ngFor="let item of algorithms" appProtected>
-    <a class = "algo-item" [title]="item.name + ' description'" [routerLink]="['/' + item.route]">{{item.name}}</a>
+<div class = "algo-item" *ngFor="let item of algorithms" appProtected>
+    <button mat-raised-button  [title]="item.name + ' description'" [routerLink]="['/' + item.route]">{{item.name}}</button>
 </div>
 

@@ -1,97 +1,118 @@
-<div *ngIf="validate()">
-
+<div appProtected *ngIf="validate()" class="form-body">
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div *ngFor="let item of items">
-      <div class="input-div">
-        <label [for]="item.name">
-          {{item.description}}
-        </label>
+      <div>
 
+        <!--     Start  Array type handling-->
         <div [ngSwitch]="item.default.type">
           <div *ngSwitchCase="'array'" [formArrayName]="item.name">
-
-            <div class="inline" *ngFor="let itemValue of item.default.value; let i=index">
-
+            <div *ngFor="let itemValue of item.default.value; let i=index" class="inline">
               <div [ngSwitch]="item.options['arrayType']">
-                <div *ngSwitchCase="'number'">
-                  <input
-                    type="number"
-                    [value]="itemValue"
-                    [formControlName]="i"
-                    (change)="onValueChange(form, item)"
-                  >
-                </div>
-                <div *ngSwitchCase="'checkbox'">
-                  <input
-                    type="checkbox"
-                    [value]="itemValue"
-                    [formControlName]="i"
-                    (input)="onValueChange(form, item)"
-                  >
-                </div>
-                <div *ngSwitchDefault>
-                  <input [type]="item.options['arrayType']"
-                         [value]="itemValue"
-                         [formControlName]="i"
-                         (change)="onValueChange(form, item)"
-                  >
-                </div>
+                <mat-form-field appearance="outline" class="array-item mat-form-field--inline">
+                  <mat-label *ngIf="i===0">{{item.name}}</mat-label>
+                  <div *ngSwitchCase="'number'">
+                    <input
+                      matInput
+                      type="number"
+                      [value]="itemValue"
+                      [formControlName]="i"
+                      (change)="onValueChange(form, item)"
+                    >
+                  </div>
+                  <div *ngSwitchDefault>
+                    <input matInput
+                           [type]="item.options['arrayType']"
+                           [value]="itemValue"
+                           [formControlName]="i"
+                           (change)="onValueChange(form, item)"
+                    >
+                  </div>
+                </mat-form-field>
               </div>
             </div>
-            <input value="+" type="button" (click)="onArrayItemAdd(form, item)">
-          </div>
+            <button mat-button color="primary" class="add-button" (click)="onArrayItemAdd(form, item)">
+              <mat-icon>
+                add
+              </mat-icon>
+            </button>
 
-          <select class="container"
-                  *ngSwitchCase="'option'"
-                  [formControlName]="item.name"
-                  (change)='onValueChange(form, item)'>
-
-            <option *ngFor="let itemValue of item.options['optionValues']"
-                    [value]="itemValue"
-                    [selected]="item.default.value===itemValue"
-            >
-              {{itemValue}}
-            </option>
-          </select>
-          <select class="container"
-                  *ngSwitchCase="'upload'"
-                  [formControlName]="item.name"
-                  (change)='onValueChange(form, item)'>
-
-            <option *ngFor="let itemValue of listUploads"
-                    [value]="itemValue"
-            >
-              {{itemValue}}
-            </option>
-          </select>
-          <div *ngSwitchCase="'number'">
-            <input [id]="item.name" type="number" [value]="item.default.value"
-                   [formControlName]="item.name"
-                   (input)="onValueChange(form, item)"
-            >
+            <!--            <input value="+" type="button" ">-->
           </div>
-          <div *ngSwitchCase="'checkbox'">
-            <input [id]="item.name" type="checkbox" [value]="item.default.value"
-                   [formControlName]="item.name"
-                   (input)="onValueChange(form, item)"
-            >
-          </div>
-          <div *ngSwitchDefault>
-            <input [id]="item.name" [type]="item.default.type" [value]="item.default.value"
-                   [formControlName]="item.name"
-                   (input)="onValueChange(form, item)"
-            >
+          <!--      End  Array type handling-->
+          <div *ngIf="item.default.type!='array'">
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{item.description}}
+              </mat-label>
+              <mat-select
+                [(value)]="item.default.value"
+                *ngSwitchCase="'option'"
+                [formControlName]="item.name"
+                (change)='onValueChange(form, item)'
+
+              >
+
+                <mat-option *ngFor="let itemValue of item.options['optionValues']"
+                            [value]="itemValue"
+                >
+                  {{itemValue}}
+                </mat-option>
+              </mat-select>
+
+              <mat-select
+                *ngSwitchCase="'upload'"
+                [formControlName]="item.name"
+                (change)='onValueChange(form, item)'>
+
+                <mat-option *ngFor="let itemValue of listUploads"
+                            [value]="itemValue"
+                >
+                  {{itemValue}}
+                </mat-option>
+              </mat-select>
+              <div *ngSwitchCase="'number'">
+                <input matInput
+                       [id]="item.name" type="number"
+                       [value]="item.default.value"
+                       [formControlName]="item.name"
+                       (input)="onValueChange(form, item)"
+                >
+              </div>
+              <div *ngSwitchCase="'checkbox'">
+                <mat-checkbox matInput
+                              [id]="item.name" [value]="item.default.value"
+                              [formControlName]="item.name"
+                              (input)="onValueChange(form, item)"
+                >
+                </mat-checkbox>
+              </div>
+
+              <div *ngSwitchDefault>
+                <input [id]="item.name" [type]="item.default.type" [value]="item.default.value"
+                       [formControlName]="item.name"
+                       (input)="onValueChange(form, item)"
+                >
+              </div>
+            </mat-form-field>
           </div>
           <div *ngIf="item.type.length>1">
-            <select class="container"
-                    #mySelect
-                    (change)='onInputTypeChange(item, mySelect.value)'
-                    name="Type">
-              <option *ngFor="let type  of item.type" [selected]="item.default.type===type"
-                      value="{{type}}">{{type}}</option>
-            </select>
+            <mat-form-field appearance="fill">
+              <mat-label>{{item.name}} type</mat-label>
+              <mat-select
+
+                #mySelect
+                [(value)]="item.default.type"
+
+                (selectionChange)='onInputTypeChange(item, mySelect.value)'
+              >
+                <mat-option *ngFor="let type  of item.type"
+                            value="{{type}}">{{type}}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
+
         </div>
+
         <div *ngIf="form.get(item.name).errors && isSubmitted">
           <div *ngIf="form.get(item.name).errors.required">
             {{item.name}} is required

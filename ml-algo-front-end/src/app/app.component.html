@@ -1,4 +1,32 @@
-<app-top-bar></app-top-bar>
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav">
+    <button color="primary" mat-button routerLink="/algo-list">
+      <mat-icon>analytics</mat-icon>
+      Analytics
+    </button>
+    <button color="primary" mat-button routerLink="/upload">
+      <mat-icon>upload_file</mat-icon>
+      Upload dataset
+    </button>
+  </mat-drawer>
+  <!--  <app-top-bar></app-top-bar>-->
+  <div>
+
+    <mat-toolbar color="primary">
+
+      <mat-toolbar-row>
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <span class="spacer">Machine Learning Regression algorithms</span>
+        <button *ngIf="isAuthenticated" (click)="logout()" mat-icon-button>
+          <mat-icon>logout</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </div>
+
+</mat-drawer-container>

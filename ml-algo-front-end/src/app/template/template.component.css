@@ -1,7 +1,29 @@
-.container {
-  display: flex;
-  flex-direction: row;
+.form-body {
+  max-width: 70%;
+  margin: auto;
 }
-div.inline {
-  display:inline-block;
+
+.mat-form-field {
+  width: 100%;
+  height: auto;
+}
+
+.add-button {
+  width: auto;
+  height: border-box;
+}
+
+.array-item {
+  margin-right: 10px;
+}
+
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+ .mat-form-field--inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

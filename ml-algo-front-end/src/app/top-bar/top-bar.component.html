@@ -1,9 +1,30 @@
-<a [routerLink]="['/']" xmlns="http://www.w3.org/1999/html">
-  <h1>Regression ML Algorithms</h1>
-</a>
-<div class="form-group file-upload">
-    <label for="file" class = "file-upload__label">Choose File</label>
-    <input class="file-upload__input" type="file" id="file" (change)="handleFileInput($event.target.files)">
-    <button class="uppload-button" type="submit" (click) = "onSubmit()">Upload</button>
-    <button  *ngIf="isAuthenticated" type="button" (click)="logout()">Log Out</button>
-</div>
+<!--<a [routerLink]="['/']" xmlns="http://www.w3.org/1999/html">-->
+<!--  <h1>Regression ML Algorithms</h1>-->
+<!--</a>-->
+<!--<div class="form-group file-upload">-->
+<!--    <label for="file" class = "file-upload__label">Choose File</label>-->
+<!--    <input class="file-upload__input" type="file" id="file" (change)="handleFileInput($event.target.files)">-->
+<!--    <button class="uppload-button" type="submit" (click) = "onSubmit()">Upload</button>-->
+<!--    <button  *ngIf="isAuthenticated" type="button" (click)="logout()">Log Out</button>-->
+<!--</div>-->
+
+
+<mat-drawer #drawer class="sidenav">
+  <button color="primary" mat-button routerLink="/customers">Customers</button>
+  <button color="primary" mat-button routerLink="/orders">Orders</button>
+  <button color="primary" mat-button routerLink="/messages">Messages</button>
+</mat-drawer>
+<mat-toolbar color="primary">
+
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <span class="spacer">Machine Learning Regression algorithms 2</span>
+    <span>{{isAuthenticated}}</span>
+    <button *ngIf="isAuthenticated" (click)="logout()" mat-icon-button>
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

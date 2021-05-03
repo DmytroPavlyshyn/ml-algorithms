@@ -1,17 +1,10 @@
-.algo-item {
-    width: 100%;
-    min-width: 400px;
-    max-width: 450px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 18px 50px;
-    margin-bottom: 8px;
-    margin-top: 8px;
-    border-radius: 3px;
-    background-color: #EEEEEE;
+.mat-raised-button {
+  width: 100%;
+  margin: 5px;
+
 }
 
-.algo-list {
-  padding-left: 10px
+.algo-item {
+  width: 50%;
+  margin: 0 auto;
 }
