@@ -18,6 +18,7 @@ export class TemplateComponent implements OnInit {
   @Input() subRoute: string;
   @Input() type: string;
   output;
+  outputString;
   jsonPayload;
   isSubmitted = false;
   form: FormGroup;
@@ -70,11 +71,6 @@ export class TemplateComponent implements OnInit {
 
   onSubmit() {
     // Process checkout data here
-    // this.algoService.submit(this.form.value, this.subRoute)
-    //   .subscribe(output => {
-    //     this.output = output;
-    //     console.warn(JSON.stringify(output));
-    //   });
     if (!this.form.valid) {
       this.isSubmitted = true;
     } else {
@@ -84,13 +80,11 @@ export class TemplateComponent implements OnInit {
       this.algoService.submit(this.jsonPayload, this.subRoute)
         .subscribe(output => {
           this.output = output;
-          console.warn(JSON.stringify(output));
+          this.outputString = JSON.stringify(output)
+          console.warn(JSON.stringify(output, null, 2));
         });
       this.isSubmitted = false;
     }
-    // this.jsonPayload = JSON.stringify(this.form.value);
-    // const a = this.form.valid ? 'valid' : 'invalid';
-    // alert(`For is ${a}`);
   }
 
 }

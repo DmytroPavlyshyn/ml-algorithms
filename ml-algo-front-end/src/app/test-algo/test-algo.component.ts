@@ -59,7 +59,7 @@ export class TestAlgoComponent implements OnInit {
     },
     {
       name: 'gamma',
-      description: 'Kernel',
+      description: 'Gamma',
       default: {
         type: 'option',
         value: 'scale'
@@ -71,23 +71,24 @@ export class TestAlgoComponent implements OnInit {
           'scale', 'auto'
         ]
       }
-    },
-    {
-      name: 'additional',
-      description: 'additional',
-      default: {
-        type: 'array',
-        value: [1,2,3]
-      },
-      type: ['option', 'number', 'array'],
-      options: {
-        arrayType: 'number',
-        subProperty: 'arguments',
-        optionValues: [
-          'scale', 'auto'
-        ]
-      }
-    },
+    }
+    // ,
+    // {
+    //   name: 'additional',
+    //   description: 'additional',
+    //   default: {
+    //     type: 'array',
+    //     value: [1,2,3]
+    //   },
+    //   type: ['option', 'number', 'array'],
+    //   options: {
+    //     arrayType: 'number',
+    //     subProperty: 'arguments',
+    //     optionValues: [
+    //       'scale', 'auto'
+    //     ]
+    //   }
+    // },
   ];
 
   constructor() {

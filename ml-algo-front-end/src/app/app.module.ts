@@ -13,6 +13,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
+import {MatTableModule} from '@angular/material/table';
 
 import {AppComponent} from './app.component';
 import {GrrnComponent} from './grrn/grrn.component';
@@ -35,8 +36,10 @@ import {AngularFileUploaderModule} from 'angular-file-uploader';
 import {MainComponent} from './main/main.component';
 import {RandomForestNewComponent} from './random-forest-new/random-forest-new.component';
 import {ScatterComponent} from './scatter/scatter.component';
-import { DatasetUploaderComponent } from './dataset/dataset-uploader/dataset-uploader.component';
+import {DatasetUploaderComponent} from './dataset/dataset-uploader/dataset-uploader.component';
 import {NgxFileDropModule} from "ngx-file-drop";
+import { MetricsTableComponent } from './metrics-table/metrics-table.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,8 @@ import {NgxFileDropModule} from "ngx-file-drop";
     RandomForestNewComponent,
     ScatterComponent,
     DatasetUploaderComponent,
+    MetricsTableComponent,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +80,7 @@ import {NgxFileDropModule} from "ngx-file-drop";
     MatSelectModule,
     MatCheckboxModule,
     MatInputModule,
+    MatTableModule,
     RouterModule.forRoot([
       {path: '', component: AlgorithmListComponent},
       {path: 'algo-list', component: AlgorithmListComponent},

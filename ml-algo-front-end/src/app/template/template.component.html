@@ -122,15 +122,44 @@
     </div>
     <input type="submit">
   </form>
-  <div *ngIf="jsonPayload">{{form.errors}}</div>
-  <div *ngIf="jsonPayload">{{jsonPayload}}</div>
+  <div *ngIf="form.errors">{{form.errors}}</div>
+  <pre *ngIf="jsonPayload">{{jsonPayload| json}}</pre>
+  <pre *ngIf="outputString">{{outputString| json}}</pre>
 
 
   <div *ngIf="output && output.stats">
-    <app-scatter [actualDataPath]="output.stats.test_path"
-                 [predictedDataPath]="output.stats.prediction_test_output_path"></app-scatter>
-    <app-scatter [actualDataPath]="output.stats.train_path"
-                 [predictedDataPath]="output.stats.prediction_train_output_path"></app-scatter>
+    <table>
+      <tr>
+        <th>
+          Test data results
+        </th>
+        <th>
+          Train data results
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <app-scatter [actualDataPath]="output.stats.test_path"
+                       [predictedDataPath]="output.stats.prediction_test_output_path"></app-scatter>
+        </td>
+        <td>
+          <app-scatter [actualDataPath]="output.stats.train_path"
+                       [predictedDataPath]="output.stats.prediction_train_output_path"></app-scatter>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <metrics-table [content]="output.stats.testing_errors"></metrics-table>
+        </td>
+        <td>
+          <metrics-table [content]="output.stats.training_errors"></metrics-table>
+        </td>
+
+      </tr>
+    </table>
+
+
   </div>
+
 </div>
 

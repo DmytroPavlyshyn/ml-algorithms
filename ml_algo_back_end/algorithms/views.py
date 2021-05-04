@@ -150,7 +150,7 @@ def process_generic_algo(request):
     # if this is a POST request we need to process the form data
     # create a form instance and populate it with data from the request:
     parsed_body = json.loads(json.loads(request.body))
-    stats =  GenericProcessor().process(parsed_body)
+    stats = GenericProcessor().process(parsed_body)
     return JsonResponse(stats, safe=False)
 
 
