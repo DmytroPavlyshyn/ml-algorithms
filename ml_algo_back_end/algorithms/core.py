@@ -8,8 +8,10 @@ import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
 
 from ml_algo_back_end import settings
+from .file_utils import FileUtils
 from .wiener_polynom import WienerPolynomialFeatures
 from .factory import RegressorFactory
+
 wp_features = WienerPolynomialFeatures()
 
 
@@ -105,9 +107,12 @@ def save_df_to_file(df=pd.DataFrame()):
 
 class GenericProcessor:
 
-    def process(self, request):
+    def process(self, request, user):
         regressor = RegressorFactory.create(request)
-        dr = DataFrameReader(request['train_path'], request['test_path'])
+        dr = DataFrameReader(
+            FileUtils.build_path(request['train_path'], user),
+            FileUtils.build_path(request['test_path'], user),
+        )
         start_time = time.time()
         regressor.fit(dr.train_X, dr.train_y)
         train_pred_y = regressor.predict(dr.train_X)
@@ -139,6 +144,7 @@ class GenericProcessor:
             'request': request,
             'stats': stats
         }
+
 
 from sklearn.svm import SVR
 

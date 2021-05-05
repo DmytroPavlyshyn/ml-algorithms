@@ -36,10 +36,12 @@ export class AlgorithmsService<T> {
     return this.http
       .post(`${this.apiUrl}/algorithms/upload`, formData,
         {
-          headers: new HttpHeaders({
+          headers: {
             Authorization: 'JWT ' + this.userService.token
-          }),
-          responseType: 'text'
+          },
+          responseType: 'text',
+          reportProgress: true,
+          observe: 'events'
         }
       );
   }

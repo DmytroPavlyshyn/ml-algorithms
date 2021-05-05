@@ -14,9 +14,9 @@ export interface AlgorithmNameRoute {
 export class AlgorithmListComponent implements OnInit {
 
   algorithms: Array<AlgorithmNameRoute> = [
-    {name: 'Test Algo', route: 'test-algo'},
+    {name: 'Epsilon-Support Vector Regression', route: 'test-algo'},
     {name: 'General regression neural network', route: 'grrn'},
-    {name: 'Epsilon-Support Vector Regression', route: 'svr'},
+    // {name: 'Epsilon-Support Vector Regression', route: 'svr'},
     {name: 'Stochastic Gradient Descent', route: 'sgd'},
     {name: 'Adaptive Boosting', route: 'ada-boost'},
     {name: 'Random forest', route: 'random-forest'},

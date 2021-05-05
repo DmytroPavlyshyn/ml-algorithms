@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -7,25 +8,37 @@ import {UserService} from '../user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  form: FormGroup;
+  public loginInvalid: boolean;
+  private formSubmitAttempt: boolean;
+  private returnUrl: string;
 
-  /**
-   * An object representing the user for the login form
-   */
-  public user: any;
-
-  constructor(public userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    public userService: UserService,
+  ) {
   }
 
-  ngOnInit(): void {
-    this.user = {
-      username: '',
-      password: ''
-    };
+  async ngOnInit() {
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
-  login() {
-    this.userService.login({username: this.user.username, password: this.user.password});
-
+  async onSubmit() {
+    this.loginInvalid = false;
+    this.formSubmitAttempt = false;
+    if (this.form.valid) {
+      try {
+        const username = this.form.get('username').value;
+        const password = this.form.get('password').value;
+        this.userService.login({username, password});
+      } catch (err) {
+        this.loginInvalid = true;
+      }
+    } else {
+      this.formSubmitAttempt = true;
+    }
   }
-
 }

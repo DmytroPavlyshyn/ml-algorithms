@@ -36,7 +36,6 @@
               </mat-icon>
             </button>
 
-            <!--            <input value="+" type="button" ">-->
           </div>
           <!--      End  Array type handling-->
           <div *ngIf="item.default.type!='array'">
@@ -120,13 +119,9 @@
         </div>
       </div>
     </div>
-    <input type="submit">
+    <button mat-raised-button type="submit">Submit</button>
   </form>
-  <div *ngIf="form.errors">{{form.errors}}</div>
-  <pre *ngIf="jsonPayload">{{jsonPayload| json}}</pre>
-  <pre *ngIf="outputString">{{outputString| json}}</pre>
-
-
+  <mat-progress-bar *ngIf="progressFlag" mode="query"></mat-progress-bar>
   <div *ngIf="output && output.stats">
     <table>
       <tr>
@@ -156,8 +151,19 @@
         </td>
 
       </tr>
-    </table>
+      <tr>
+        <td>
+          <a target="_blank" rel="noopener"
+             [href]="apiUrl + '/algorithms/file?path=' + output.stats.prediction_test_output_path">Download test
+            predictions</a>
 
+        </td>
+        <a target="_blank" rel="noopener"
+           [href]="apiUrl + '/algorithms/file?path=' + output.stats.prediction_train_output_path">Download train
+          predictions</a>
+        <td></td>
+      </tr>
+    </table>
 
   </div>
 

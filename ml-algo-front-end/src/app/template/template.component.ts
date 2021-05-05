@@ -3,7 +3,8 @@ import {TemplateItem} from './templateItem';
 import {FormGroup} from '@angular/forms';
 import {TemplateFormService} from '../template-form.service';
 import {AlgorithmsService} from '../algorithms.service';
-
+import {NotifierService} from "angular-notifier";
+import {environment } from "../../environments/environment"
 interface FilesListResp {
   files: Array<string>;
 }
@@ -23,9 +24,12 @@ export class TemplateComponent implements OnInit {
   isSubmitted = false;
   form: FormGroup;
   listUploads = [];
+  progressFlag = false;
+  apiUrl = environment.apiUrl;
 
   constructor(private templateFormService: TemplateFormService,
-              private algoService: AlgorithmsService<any>
+              private algoService: AlgorithmsService<any>,
+              private notifier: NotifierService
   ) {
   }
 
@@ -76,12 +80,18 @@ export class TemplateComponent implements OnInit {
     } else {
 
       this.jsonPayload = JSON.stringify(this.templateFormService.toRequestModel(this.type, this.form, this.items));
-
+      this.progressFlag = true;
       this.algoService.submit(this.jsonPayload, this.subRoute)
         .subscribe(output => {
           this.output = output;
           this.outputString = JSON.stringify(output)
+          this.notifier.notify("success", "Algorithm completed successfully")
+          this.progressFlag = false;
           console.warn(JSON.stringify(output, null, 2));
+        }, error => {
+          this.notifier.notify("error", "Invalid input")
+          this.progressFlag = false;
+
         });
       this.isSubmitted = false;
     }

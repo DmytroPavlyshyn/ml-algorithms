@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
+import {NotifierService} from "angular-notifier";
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,11 @@ export class UserService {
 
   public errors: any = [];
 
-  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {
+  constructor(private http: HttpClient,
+              private cookieService: CookieService,
+              private router: Router,
+              private notifier: NotifierService
+  ) {
     this.apiUrl = environment.apiUrl;
 
     this.httpOptions = {
@@ -34,10 +39,11 @@ export class UserService {
       data => {
         this.updateData(data['token']);
         window.location.reload();
-        return true;
+        this.notifier.notify("success", "You authorized successfully")
       },
       err => {
         this.errors = err.error;
+        this.notifier.notify("error", "Username/Password is invalid")
         return false;
       }
     );

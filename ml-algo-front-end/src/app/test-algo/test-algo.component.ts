@@ -72,23 +72,6 @@ export class TestAlgoComponent implements OnInit {
         ]
       }
     }
-    // ,
-    // {
-    //   name: 'additional',
-    //   description: 'additional',
-    //   default: {
-    //     type: 'array',
-    //     value: [1,2,3]
-    //   },
-    //   type: ['option', 'number', 'array'],
-    //   options: {
-    //     arrayType: 'number',
-    //     subProperty: 'arguments',
-    //     optionValues: [
-    //       'scale', 'auto'
-    //     ]
-    //   }
-    // },
   ];
 
   constructor() {

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-scatter',
@@ -13,7 +14,8 @@ export class ScatterComponent implements OnInit {
   @Input() actualDataPath: string;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private userService: UserService
   ) {
 
   }
@@ -28,13 +30,17 @@ export class ScatterComponent implements OnInit {
 
   getImage(imageUrl: string): Observable<Blob> {
 
-    const params = new HttpParams().set('predictedDataPath', this.predictedDataPath)
+    const params = new HttpParams()
+      .set('predictedDataPath', this.predictedDataPath)
       .set('actualDataPath', this.actualDataPath);
     return this.http
       .get(imageUrl, {
         responseType: 'blob',
-        params
-      }, );
+        params,
+        headers: {
+          Authorization: 'JWT ' + this.userService.token
+        }
+      },);
   }
 
 

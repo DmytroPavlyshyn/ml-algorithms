@@ -1,24 +1,23 @@
-<h2 appProtected>Log In</h2>
-<div *ngIf="!userService.token">
-  <div>
-    <label>Username:</label
-    >
-    <br/>
-    <input type="text" name="login-username" [(ngModel)]="user.username">
-    <span *ngFor="let error of userService.errors.username"><br/>
-      {{ error }}</span></div>
-  <div>
-    <label>Password:</label>
-    <br/>
-
-    <input type="password" name="login-password" [(ngModel)]="user.password">
-    <span *ngFor="let error of userService.errors.password"><br/>
-      {{ error }}</span>
-  </div>
-  <div>
-    <button (click)="login()">Log In</button>
-  </div>
-  <div>
-    <span *ngFor="let error of userService.errors.non_field_errors">{{ error }}<br/></span>
-  </div>
-</div>
+<mat-card *ngIf="!userService.token">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h2>Log In</h2>
+      <mat-error *ngIf="loginInvalid">
+        The username and password were not recognised
+      </mat-error>
+      <mat-form-field class="full-width-input">
+        <input matInput placeholder="Username" formControlName="username" required>
+        <mat-error>
+          Please provide a valid username
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <input matInput type="password" placeholder="Password" formControlName="password" required>
+        <mat-error>
+          Please provide a valid password
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary">Login</button>
+    </form>
+  </mat-card-content>
+</mat-card>

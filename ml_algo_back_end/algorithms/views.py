@@ -16,132 +16,132 @@ from .serializers import *
 from .translators import *
 
 
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-@authentication_classes((JSONWebTokenAuthentication,))
-def process_grrn(request):
-    parsed_body = json.loads(request.body)
-    print(str(request.body))
-
-    form = GrrnForm(data=parsed_body)
-    # check whether it's valid:
-    if form.is_valid():
-        processor = GRRNProcessor()
-        stats = processor.process(
-            **filter_null(form.validated_data)
-        )
-        return JsonResponse(stats, safe=False)
-    return HttpResponseBadRequest()
-
-
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-@authentication_classes((JSONWebTokenAuthentication,))
-def process_svr(request):
-    # if this is a POST request we need to process the form data
-    # create a form instance and populate it with data from the request:
-    parsed_body = json.loads(request.body)
-    print(str(request.body))
-
-    form = SvrForm(data=parsed_body)
-    # check whether it's valid:
-    if form.is_valid():
-        translate_svr(form)
-        processor = SVRProcessor()
-        stats = processor.process(
-            **filter_null(form.validated_data)
-        )
-        return JsonResponse(stats, safe=False)
-
-    return HttpResponseBadRequest()
-
-
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-@authentication_classes((JSONWebTokenAuthentication,))
-def process_sgd(request):
-    # if this is a POST request we need to process the form data
-    # create a form instance and populate it with data from the request:
-    parsed_body = json.loads(request.body)
-    print(str(request.body))
-
-    form = SgdForm(data=parsed_body)
-    # check whether it's valid:
-    if form.is_valid():
-        translate_sgd(form)
-        processor = SGDProcessor()
-        stats = processor.process(
-            **filter_null(form.validated_data)
-        )
-        return JsonResponse(stats, safe=False)
-    return HttpResponseBadRequest()
-
-
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-@authentication_classes((JSONWebTokenAuthentication,))
-def process_ada_boost(request):
-    # if this is a POST request we need to process the form data
-    # create a form instance and populate it with data from the request:
-    parsed_body = json.loads(request.body)
-    print(str(request.body))
-
-    form = AdaBoostForm(data=parsed_body)
-    # check whether it's valid:
-    if form.is_valid():
-        translate_ada_boost(form)
-        processor = AdaBoostProcessor()
-
-        stats = processor.process(
-            **filter_null(form.validated_data)
-        )
-        return JsonResponse(stats, safe=False)
-
-    return HttpResponseBadRequest()
-
-
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-@authentication_classes((JSONWebTokenAuthentication,))
-def process_random_forest(request):
-    # if this is a POST request we need to process the form data
-    # create a form instance and populate it with data from the request:
-    parsed_body = json.loads(request.body)
-    print(str(request.body))
-
-    form = RandomForestForm(data=parsed_body)
-    # check whether it's valid:
-    if form.is_valid():
-        translate_random_forest(form)
-        processor = RandomForestProcessor()
-        stats = processor.process(
-            **filter_null(form.validated_data)
-        )
-        return JsonResponse(stats, safe=False)
-
-    return HttpResponseBadRequest()
-
-
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-@authentication_classes((JSONWebTokenAuthentication,))
-def process_mlp(request):
-    # if this is a POST request we need to process the form data
-    # create a form instance and populate it with data from the request:
-    parsed_body = json.loads(request.body)
-    print(str(request.body))
-
-    form = MlpForm(data=parsed_body)
-    # check whether it's valid:
-    if form.is_valid():
-        translate_mlp(form)
-        processor = MLPProcessor()
-        stats = processor.process(
-            **filter_null(form.validated_data)
-        )
-        return JsonResponse(stats, safe=False)
-
-    return HttpResponseBadRequest()
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
+# @authentication_classes((JSONWebTokenAuthentication,))
+# def process_grrn(request):
+#     parsed_body = json.loads(request.body)
+#     print(str(request.body))
+#
+#     form = GrrnForm(data=parsed_body)
+#     # check whether it's valid:
+#     if form.is_valid():
+#         processor = GRRNProcessor()
+#         stats = processor.process(
+#             **filter_null(form.validated_data)
+#         )
+#         return JsonResponse(stats, safe=False)
+#     return HttpResponseBadRequest()
+#
+#
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
+# @authentication_classes((JSONWebTokenAuthentication,))
+# def process_svr(request):
+#     # if this is a POST request we need to process the form data
+#     # create a form instance and populate it with data from the request:
+#     parsed_body = json.loads(request.body)
+#     print(str(request.body))
+#
+#     form = SvrForm(data=parsed_body)
+#     # check whether it's valid:
+#     if form.is_valid():
+#         translate_svr(form)
+#         processor = SVRProcessor()
+#         stats = processor.process(
+#             **filter_null(form.validated_data)
+#         )
+#         return JsonResponse(stats, safe=False)
+#
+#     return HttpResponseBadRequest()
+#
+#
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
+# @authentication_classes((JSONWebTokenAuthentication,))
+# def process_sgd(request):
+#     # if this is a POST request we need to process the form data
+#     # create a form instance and populate it with data from the request:
+#     parsed_body = json.loads(request.body)
+#     print(str(request.body))
+#
+#     form = SgdForm(data=parsed_body)
+#     # check whether it's valid:
+#     if form.is_valid():
+#         translate_sgd(form)
+#         processor = SGDProcessor()
+#         stats = processor.process(
+#             **filter_null(form.validated_data)
+#         )
+#         return JsonResponse(stats, safe=False)
+#     return HttpResponseBadRequest()
+#
+#
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
+# @authentication_classes((JSONWebTokenAuthentication,))
+# def process_ada_boost(request):
+#     # if this is a POST request we need to process the form data
+#     # create a form instance and populate it with data from the request:
+#     parsed_body = json.loads(request.body)
+#     print(str(request.body))
+#
+#     form = AdaBoostForm(data=parsed_body)
+#     # check whether it's valid:
+#     if form.is_valid():
+#         translate_ada_boost(form)
+#         processor = AdaBoostProcessor()
+#
+#         stats = processor.process(
+#             **filter_null(form.validated_data)
+#         )
+#         return JsonResponse(stats, safe=False)
+#
+#     return HttpResponseBadRequest()
+#
+#
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
+# @authentication_classes((JSONWebTokenAuthentication,))
+# def process_random_forest(request):
+#     # if this is a POST request we need to process the form data
+#     # create a form instance and populate it with data from the request:
+#     parsed_body = json.loads(request.body)
+#     print(str(request.body))
+#
+#     form = RandomForestForm(data=parsed_body)
+#     # check whether it's valid:
+#     if form.is_valid():
+#         translate_random_forest(form)
+#         processor = RandomForestProcessor()
+#         stats = processor.process(
+#             **filter_null(form.validated_data)
+#         )
+#         return JsonResponse(stats, safe=False)
+#
+#     return HttpResponseBadRequest()
+#
+#
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
+# @authentication_classes((JSONWebTokenAuthentication,))
+# def process_mlp(request):
+#     # if this is a POST request we need to process the form data
+#     # create a form instance and populate it with data from the request:
+#     parsed_body = json.loads(request.body)
+#     print(str(request.body))
+#
+#     form = MlpForm(data=parsed_body)
+#     # check whether it's valid:
+#     if form.is_valid():
+#         translate_mlp(form)
+#         processor = MLPProcessor()
+#         stats = processor.process(
+#             **filter_null(form.validated_data)
+#         )
+#         return JsonResponse(stats, safe=False)
+#
+#     return HttpResponseBadRequest()
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
@@ -150,7 +150,8 @@ def process_generic_algo(request):
     # if this is a POST request we need to process the form data
     # create a form instance and populate it with data from the request:
     parsed_body = json.loads(json.loads(request.body))
-    stats = GenericProcessor().process(parsed_body)
+
+    stats = GenericProcessor().process(parsed_body, request.user)
     return JsonResponse(stats, safe=False)
 
 
@@ -223,7 +224,7 @@ def download_file(request):
 def list_uploads(request):
     user_folder = f"{settings.UPLOADS_ROOT}/{request.user.username}";
     if os.path.exists(user_folder):
-        files = [join(user_folder, f) for f in listdir(user_folder)]
+        files = [f for f in listdir(user_folder)]
     else:
         files = []
     return JsonResponse({'files': files})

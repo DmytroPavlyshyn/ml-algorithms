@@ -1,4 +1,5 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~angular-notifier/styles";
 
 body {
   font-family: Roboto, Arial, sans-serif;

@@ -14,6 +14,11 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
 import {AppComponent} from './app.component';
 import {GrrnComponent} from './grrn/grrn.component';
@@ -40,6 +45,53 @@ import {DatasetUploaderComponent} from './dataset/dataset-uploader/dataset-uploa
 import {NgxFileDropModule} from "ngx-file-drop";
 import { MetricsTableComponent } from './metrics-table/metrics-table.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { UploadDirective } from './directives/upload.directive';
+import { RegisterComponent } from './register/register.component';
+
+/**
+ * Custom angular notifier options
+ */
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'left',
+			distance: 12
+		},
+		vertical: {
+			position: 'bottom',
+			distance: 12,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
+
 
 @NgModule({
   declarations: [
@@ -63,6 +115,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     DatasetUploaderComponent,
     MetricsTableComponent,
     FileUploadComponent,
+    UploadDirective,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +135,10 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     MatCheckboxModule,
     MatInputModule,
     MatTableModule,
+    MatTabsModule,
+    MatCardModule,
+    MatProgressBarModule,
+    NotifierModule.withConfig(customNotifierOptions),
     RouterModule.forRoot([
       {path: '', component: AlgorithmListComponent},
       {path: 'algo-list', component: AlgorithmListComponent},
@@ -93,7 +151,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
       {path: 'mlp', component: MlpComponent},
       {path: 'all-algos', component: AllAlgosComponent},
       {path: 'login', component: LoginComponent},
-      {path: 'upload', component: DatasetUploaderComponent},
+      {path: 'upload', component: FileUploadComponent},
+      {path: 'auth', component: MainComponent},
     ], {relativeLinkResolution: 'legacy'}),
   ],
   providers: [UserService, AlgorithmsService, CookieService],
