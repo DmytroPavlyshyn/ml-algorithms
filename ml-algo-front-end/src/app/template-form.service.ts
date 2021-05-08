@@ -63,9 +63,9 @@ export class TemplateFormService {
     }
     let castedValue;
     switch (type) {
-      case 'number':
-        castedValue = parseFloat(value);
-        break;
+      // case 'number':
+      //   castedValue = parseFloat(value);
+      //   break;
       default:
         castedValue = value;
     }

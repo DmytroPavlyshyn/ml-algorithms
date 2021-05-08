@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from matplotlib.backends.backend_template import FigureCanvas
-from matplotlib.figure import Figure
 
 
 def plot(actual_data_path: str, predicted_data_path: str):

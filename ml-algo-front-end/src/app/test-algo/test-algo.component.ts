@@ -71,7 +71,19 @@ export class TestAlgoComponent implements OnInit {
           'scale', 'auto'
         ]
       }
-    }
+    },
+    // {
+    //   name: 'some_string',
+    //   description: 'number_text_array',
+    //   type: ['array', 'text', 'number'],
+    //   default: {
+    //     type: 'array',
+    //     value: [1, 2, 3, 4, 5]
+    //   },
+    //   options: {
+    //     arrayType: 'number'
+    //   }
+    // }
   ];
 
   constructor() {

@@ -1,0 +1,34 @@
+{
+  "request": {
+    "type": "svr",
+    "train_path": "/Users/dmytropavlyshyn/media/ml-algo/uploads/admin/trainCO.txt",
+    "test_path": "/Users/dmytropavlyshyn/media/ml-algo/uploads/admin/testCO.txt",
+    "arguments": {
+      "kernel": "rbf",
+      "degree": 3,
+      "gamma": "scale"
+    }
+  },
+  "stats": {
+    "prediction_train_output_path": "/Users/dmytropavlyshyn/media/ml-algo/predictions/2021-05-03-20-28-07_4376b998-2233-47de-8e49-181297e90bb3.csv",
+    "prediction_test_output_path": "/Users/dmytropavlyshyn/media/ml-algo/predictions/2021-05-03-20-28-07_6d7e395d-3344-463c-b053-7d5e5dc3136c.csv",
+    "job_duration": 2.9993107318878174,
+    "training_errors": {
+      "mean_absolute_percentage": 20.56235118975483,
+      "root_mean_squared": 0.5084419992903781,
+      "sum_of_squared_errors": 35.95227855382722,
+      "symmetric_mean_absolute_percentage_error": 0.057146723406496076,
+      "mean_absolute_error": 0.2476187212513063
+    },
+    "testing_errors": {
+      "mean_absolute_percentage": 18.355116939533893,
+      "root_mean_squared": 0.46038347446743844,
+      "sum_of_squared_errors": 20.329983766527842,
+      "symmetric_mean_absolute_percentage_error": 0.05625259416112305,
+      "mean_absolute_error": 0.25170561218364973
+    },
+    "train_path": "/Users/dmytropavlyshyn/media/ml-algo/uploads/admin/trainCO.txt",
+    "test_path": "/Users/dmytropavlyshyn/media/ml-algo/uploads/admin/testCO.txt"
+  }
+}
+

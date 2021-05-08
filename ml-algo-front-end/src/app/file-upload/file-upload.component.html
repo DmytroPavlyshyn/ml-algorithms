@@ -1,0 +1,23 @@
+<mat-card appProtected class="content" role="main">
+  <div class="card highlight-card card-small mb-0 ">
+    Upload file
+  </div>
+  <div class="card card-light">
+    <div class="dotted" appUpload (onFileDropped)="onFileSelected($event)">Drop a file here</div>
+  </div>
+  <div class="progress">
+
+    <mat-progress-bar class="progress-bar" mode="determinate"
+                      [value]="uploadProgress" *ngIf="uploadProgress">
+
+    </mat-progress-bar>
+
+    <mat-icon class="cancel-upload" (click)="cancelUpload()"
+              *ngIf="uploadProgress">delete_forever
+    </mat-icon>
+
+  </div>
+
+</mat-card>
+
+
