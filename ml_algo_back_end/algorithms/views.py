@@ -158,35 +158,6 @@ def process_generic_algo(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 @authentication_classes((JSONWebTokenAuthentication,))
-def process_all_algos(request):
-    all_propcessors = {
-        "grrn": {'form': GrrnForm, 'translator': translate_grrm},
-        "svr": {'form': SvrForm, 'translator': translate_svr},
-        "sgd": {'form': SgdForm, 'translator': translate_sgd},
-        "ada-boost": {'form': AdaBoostForm, 'translator': translate_ada_boost},
-        "random-forest": {'form': RandomForestForm, 'translator': translate_random_forest},
-        "mlp": {'form': MlpForm, 'translator': translate_mlp}
-    }
-    processor = AllAlgorithmsProcessor()
-    if request.method == 'POST':
-        validation_results = []
-        validated_data = {}
-        parsed_body = json.loads(request.body)
-        for key, value in all_propcessors.items():
-            record = value['form'](data=parsed_body[key])
-            is_valid = record.is_valid()
-            validated_data[key] = filter_null(value['translator'](record).validated_data)
-            validation_results.append(is_valid)
-        print(validation_results)
-        if all(validation_results):
-            stats = processor.process(**validated_data)
-            return JsonResponse(stats, safe=False)
-    return HttpResponseBadRequest()
-
-
-@api_view(['POST'])
-@permission_classes((IsAuthenticated,))
-@authentication_classes((JSONWebTokenAuthentication,))
 def upload_file(request):
     form = DocumentForm(request.POST, request.FILES)
     if form.is_valid():

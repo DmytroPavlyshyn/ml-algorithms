@@ -60,7 +60,7 @@ export class FileUploadComponent {
   cancelUpload() {
     this.uploadSub.unsubscribe();
     this.reset();
-    this.notifier.notify("warning", "Uploading was cancelled")
+    this.notifier.notify("warning", "Uploading was canceled")
 
   }
 

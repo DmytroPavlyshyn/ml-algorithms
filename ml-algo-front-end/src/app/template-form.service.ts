@@ -15,7 +15,7 @@ export class TemplateFormService {
   toFormGroup(templateItems: TemplateItem[]): FormGroup {
     const group: any = {};
     templateItems.forEach(templateItem => {
-      group[templateItem.name] = templateItem.default.type !== 'array' ?
+      group[templateItem.name] = templateItem.default.type !== 'array' && templateItem.default.type !== 'tuple' ?
         this.createFormControl(templateItem, templateItem.default.value, templateItem.default.type)
         : this.createFormArray(templateItem);
     });
@@ -25,18 +25,24 @@ export class TemplateFormService {
   toRequestModel(type: string, formGroup: FormGroup, templateItems: TemplateItem[]): RequestAlgorithmModel {
     const model: any = {};
     model.type = type;
+    model.arguments = [];
     for (const templateItem of templateItems) {
       const control = formGroup.get(templateItem.name);
       if (control) {
-        const subprops =  templateItem.options && templateItem.options.subProperty;
-        if (subprops) {
-          if (!model[subprops]) {
-            model[subprops] = {};
-          }
-          model[subprops][templateItem.name] = control.value;
-        } else {
-          model[templateItem.name] = control.value;
+        const subprops = templateItem.options && templateItem.options.subProperty;
+
+        let obj = {
+          "name": templateItem.name,
+          "value": control.value,
+          "type": templateItem.default.type
         }
+        if (subprops) {
+          obj['subProps'] = subprops;
+        }
+        if (obj.type == 'array' || obj.type == 'tuple') {
+          obj['arrayType'] = templateItem.options.arrayType
+        }
+        model.arguments.push(obj);
       }
     }
     return model;
@@ -58,14 +64,8 @@ export class TemplateFormService {
   }
 
   castToType(value: any, type: string): any {
-    if (!value) {
-      return null;
-    }
     let castedValue;
     switch (type) {
-      // case 'number':
-      //   castedValue = parseFloat(value);
-      //   break;
       default:
         castedValue = value;
     }

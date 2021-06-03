@@ -49,10 +49,10 @@ export class TestAlgoComponent implements OnInit {
       name: 'degree',
       description: 'Degree',
       default: {
-        type: 'number',
+        type: 'int',
         value: '3'
       },
-      type: ['number'],
+      type: ['int'],
       options: {
         subProperty: 'arguments',
       }
@@ -64,7 +64,7 @@ export class TestAlgoComponent implements OnInit {
         type: 'option',
         value: 'scale'
       },
-      type: ['option', 'number'],
+      type: ['option', 'float'],
       options: {
         subProperty: 'arguments',
         optionValues: [
@@ -72,18 +72,105 @@ export class TestAlgoComponent implements OnInit {
         ]
       }
     },
-    // {
-    //   name: 'some_string',
-    //   description: 'number_text_array',
-    //   type: ['array', 'text', 'number'],
-    //   default: {
-    //     type: 'array',
-    //     value: [1, 2, 3, 4, 5]
-    //   },
-    //   options: {
-    //     arrayType: 'number'
-    //   }
-    // }
+    {
+      name: 'coef0',
+      description: 'coef0',
+      default: {
+        type: 'float',
+        value: '0.0'
+      },
+      type: ['float'],
+      options: {
+        subProperty: 'arguments'
+      }
+    },
+    {
+      name: 'tol',
+      description: 'tol',
+      default: {
+        type: 'float',
+        value: '0.001'
+      },
+      type: ['float'],
+      options: {
+        subProperty: 'arguments'
+      }
+    },
+    {
+      name: 'C',
+      description: 'C',
+      default: {
+        type: 'float',
+        value: '1.0'
+      },
+      type: ['float'],
+      options: {
+        subProperty: 'arguments'
+      }
+    },
+    {
+      name: 'epsilon',
+      description: 'epsilon',
+      default: {
+        type: 'float',
+        value: '0.1'
+      },
+      type: ['float'],
+      options: {
+        subProperty: 'arguments'
+      }
+    },
+    {
+      name: 'shrinking',
+      description: 'shrinking',
+      default: {
+        type: 'checkbox',
+        value: true
+      },
+      type: ['checkbox'],
+      options: {
+        subProperty: 'arguments'
+      }
+    },
+    {
+      name: 'cache_size',
+      description: 'cache_size',
+      default: {
+        type: 'float',
+        value: '200'
+      },
+      type: ['float'],
+      options: {
+        subProperty: 'arguments'
+      }
+    },
+    {
+      name: 'verbose',
+      description: 'verbose',
+      default: {
+        type: 'checkbox',
+        value: false
+      },
+      type: ['checkbox'],
+      options: {
+        subProperty: 'arguments'
+      }
+    },
+    {
+      name: 'max_iter',
+      description: 'max_iter',
+      default: {
+        type: 'int',
+        value: -1
+      },
+      type: ['int'],
+      options: {
+        subProperty: 'arguments'
+      }
+    }
+  //  nonlinear inputs extension:
+  //  wiener_n:
+
   ];
 
   constructor() {

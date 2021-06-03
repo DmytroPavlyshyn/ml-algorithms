@@ -41,7 +41,7 @@ export class TemplateComponent implements OnInit {
 
   onInputTypeChange(item: TemplateItem, value: string): void {
     this.form = null;
-    if (value === 'array') {
+    if (value === 'array' || value === 'tuple') {
       item.default.value = [null];
     } else {
       item.default.value = null;

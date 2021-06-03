@@ -3,13 +3,32 @@
     <div *ngFor="let item of items">
       <div>
 
-        <!--     Start  Array type handling-->
         <div [ngSwitch]="item.default.type">
+          <!--     Start  Array type handling-->
           <div *ngSwitchCase="'array'" [formArrayName]="item.name">
             <div *ngFor="let itemValue of item.default.value; let i=index" class="inline">
               <div [ngSwitch]="item.options['arrayType']">
                 <mat-form-field appearance="outline" class="array-item mat-form-field--inline">
                   <mat-label *ngIf="i===0">{{item.name}}</mat-label>
+                  <div *ngSwitchCase="'int'">
+                    <input
+                      matInput
+                      type="text"
+                      [value]="itemValue"
+                      [formControlName]="i"
+                      (change)="onValueChange(form, item)"
+                    >
+                  </div>
+                  <div *ngSwitchCase="'float'">
+                    <input
+                      matInput
+                      type="text"
+                      [value]="itemValue"
+                      [formControlName]="i"
+                      (change)="onValueChange(form, item)"
+                    >
+                  </div>
+
                   <div *ngSwitchCase="'number'">
                     <input
                       matInput
@@ -35,11 +54,63 @@
                 add
               </mat-icon>
             </button>
-
           </div>
           <!--      End  Array type handling-->
-          <div *ngIf="item.default.type!='array'">
-            <mat-form-field appearance="outline">
+<!--               Start  Tuple type handling-->
+          <div *ngSwitchCase="'tuple'" [formArrayName]="item.name">
+            <div *ngFor="let itemValue of item.default.value; let i=index" class="inline">
+              <div [ngSwitch]="item.options['arrayType']">
+                <mat-form-field appearance="outline" class="array-item mat-form-field--inline">
+                  <mat-label *ngIf="i===0">{{item.name}}</mat-label>
+                  <div *ngSwitchCase="'int'">
+                    <input
+                      matInput
+                      type="text"
+                      [value]="itemValue"
+                      [formControlName]="i"
+                      (change)="onValueChange(form, item)"
+                    >
+                  </div>
+                  <div *ngSwitchCase="'float'">
+                    <input
+                      matInput
+                      type="text"
+                      [value]="itemValue"
+                      [formControlName]="i"
+                      (change)="onValueChange(form, item)"
+                    >
+                  </div>
+
+                  <div *ngSwitchCase="'number'">
+                    <input
+                      matInput
+                      type="number"
+                      [value]="itemValue"
+                      [formControlName]="i"
+                      (change)="onValueChange(form, item)"
+                    >
+                  </div>
+                  <div *ngSwitchDefault>
+                    <input matInput
+                           [type]="item.options['arrayType']"
+                           [value]="itemValue"
+                           [formControlName]="i"
+                           (change)="onValueChange(form, item)"
+                    >
+                  </div>
+                </mat-form-field>
+              </div>
+            </div>
+            <button mat-button color="primary" class="add-button" (click)="onArrayItemAdd(form, item)">
+              <mat-icon>
+                add
+              </mat-icon>
+            </button>
+          </div>
+          <!--      End  Tuple type handling-->
+
+          <div *ngIf="!['array', 'tuple'].includes(item.default.type)">
+            <mat-form-field *ngIf="!['checkbox'].includes(item.default.type)" appearance="outline">
               <mat-label>
                 {{item.description}}
               </mat-label>
@@ -69,21 +140,39 @@
                   {{itemValue}}
                 </mat-option>
               </mat-select>
+              <div *ngSwitchCase="'int'">
+                <input matInput
+                       [id]="item.name" type="text"
+                       [value]="item.default.value"
+                       [formControlName]="item.name"
+                       (input)="onValueChange(form, item)"
+                       pattern="^[\-]?[1-9]?[0-9]*$"
+                >
+              </div>
+              <div *ngSwitchCase="'float'">
+                <input matInput
+                       [id]="item.name" type="text"
+                       [value]="item.default.value"
+                       [formControlName]="item.name"
+                       (input)="onValueChange(form, item)"
+                       pattern="^[\-]?[0-9]+(\.[0-9]+)?$"
+                >
+              </div>
               <div *ngSwitchCase="'number'">
                 <input matInput
-                       [id]="item.name" type="number"
+                       [id]="item.name" type="text"
                        [value]="item.default.value"
                        [formControlName]="item.name"
                        (input)="onValueChange(form, item)"
                 >
               </div>
-              <div *ngSwitchCase="'checkbox'">
-                <mat-checkbox matInput
-                              [id]="item.name" [value]="item.default.value"
-                              [formControlName]="item.name"
-                              (input)="onValueChange(form, item)"
+              <div *ngSwitchCase="'text'">
+                <input matInput
+                       [id]="item.name" type="text"
+                       [value]="item.default.value"
+                       [formControlName]="item.name"
+                       (input)="onValueChange(form, item)"
                 >
-                </mat-checkbox>
               </div>
 
               <div *ngSwitchDefault>
@@ -93,6 +182,16 @@
                 >
               </div>
             </mat-form-field>
+
+            <div *ngSwitchCase="'checkbox'">
+              <mat-checkbox
+                [id]="item.name" [value]="item.default.value"
+                [formControlName]="item.name"
+                (input)="onValueChange(form, item)"
+              >
+                {{item.description}}
+              </mat-checkbox>
+            </div>
           </div>
           <div *ngIf="item.type.length>1">
             <mat-form-field appearance="fill">
@@ -108,6 +207,8 @@
                             value="{{type}}">{{type}}</mat-option>
               </mat-select>
             </mat-form-field>
+
+
           </div>
 
         </div>
@@ -122,6 +223,7 @@
     <button mat-raised-button type="submit">Submit</button>
   </form>
   <mat-progress-bar *ngIf="progressFlag" mode="query"></mat-progress-bar>
+
   <div *ngIf="output && output.stats">
     <table>
       <tr>

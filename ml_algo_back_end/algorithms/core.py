@@ -80,14 +80,21 @@ def calculate_errors(y_true, y_pred):
 
 class DataFrameReader:
 
-    def __init__(self, train_path, test_path):
-        df_train = pd.read_csv(train_path, header=None)
-        df_test = pd.read_csv(test_path, header=None)
+    def __init__(self, train_path, test_path, wiener_n=None):
+        self.df_train = pd.read_csv(train_path, header=None)
+        self.df_test = pd.read_csv(test_path, header=None)
 
-        self.train_X = df_train.iloc[:, :-1]
-        self.train_y = df_train.iloc[:, -1]
-        self.test_X = df_test.iloc[:, :-1]
-        self.test_y = df_test.iloc[:, -1]
+        imd_df_train = self.df_train.copy(deep=True)
+        imd_df_test = self.df_test.copy(deep=True)
+
+        if wiener_n is not None:
+            imd_df_train = wp_features.fit(imd_df_train, wiener_n)
+            imd_df_test = wp_features.fit(imd_df_test, wiener_n)
+
+        self.train_X = imd_df_train.iloc[:, :-1]
+        self.train_y = imd_df_train.iloc[:, -1]
+        self.test_X = imd_df_test.iloc[:, :-1]
+        self.test_y = imd_df_test.iloc[:, -1]
 
         scaler = MaxScaler()
         scaler.fit(self.train_X)
@@ -105,13 +112,66 @@ def save_df_to_file(df=pd.DataFrame()):
     return target_path
 
 
+class UnsupportedTypeError(Exception):
+    pass
+
+
 class GenericProcessor:
 
+    def cast_type(self, value, type):
+        if value is None or \
+                (isinstance(value, str) and value.strip() == ''):
+            return None
+
+        if type == 'int':
+            new_value = int(value)
+        elif type == 'float':
+            new_value = float(value)
+        elif type == 'number':
+            new_value = float(value)
+        elif type == 'tuple':
+            new_value = tuple(value)
+        elif type in ['checkbox', 'option', 'text', 'upload', 'array']:
+            new_value = value
+        else:
+            raise UnsupportedTypeError(type)
+        #     todo....
+        return new_value
+
+    def resolve_data_type(self, argument):
+        if argument['type'] in ['array', 'tuple']:
+            tmp = [self.cast_type(value, argument['arrayType']) for value in argument['value']]
+            if argument['type'] == 'tuple':
+                tmp = tuple(tmp)
+            return tmp
+        else:
+            return self.cast_type(argument['value'], argument['type'])
+
+    def resolve_data_types(self, arguments):
+        resolved_args = {}
+        for arg in arguments:
+            if 'subProps' in arg:
+                if arg['subProps'] not in resolved_args:
+                    resolved_args[arg['subProps']] = {}
+                resolved_args[arg['subProps']][arg['name']] = self.resolve_data_type(arg)
+            else:
+                resolved_args[arg['name']] = self.resolve_data_type(arg)
+        return resolved_args
+
     def process(self, request, user):
+        request['arguments'] = self.resolve_data_types(request['arguments'])
         regressor = RegressorFactory.create(request)
+
+        wiener = None
+        if 'wiener' in request['arguments'] \
+                and request['arguments']['wiener'] is not None \
+                and request['arguments']['wiener']['use']:
+            wiener = request['arguments']['wiener']['n']
+
         dr = DataFrameReader(
-            FileUtils.build_path(request['train_path'], user),
-            FileUtils.build_path(request['test_path'], user),
+            FileUtils.build_path(request['arguments']['train_path'], user),
+            FileUtils.build_path(request['arguments']['test_path'], user),
+            wiener
         )
         start_time = time.time()
         regressor.fit(dr.train_X, dr.train_y)
@@ -137,8 +197,8 @@ class GenericProcessor:
         stats['training_errors'] = calculate_errors(dr.train_y, train_pred_y)
         stats['testing_errors'] = calculate_errors(dr.test_y, pred_y)
 
-        stats['train_path'] = request['train_path']
-        stats['test_path'] = request['test_path']
+        stats['train_path'] = request['arguments']['train_path']
+        stats['test_path'] = request['arguments']['test_path']
 
         return {
             'request': request,
@@ -333,146 +393,7 @@ class AdaBoostProcessor:
         return stats
 
 
-from sklearn.ensemble import RandomForestRegressor
 
 
-class RandomForestProcessor:
-
-    def process(
-            self, train_path: str, test_path: str,
-            **kwargs
-    ):
-        dr = DataFrameReader(train_path, test_path)
-        start_time = time.time()
-        if kwargs['use_wiener']:
-            n = kwargs['wiener_n']
-            dr.test_X = wp_features.fit(dr.test_X, n)
-            dr.train_X = wp_features.fit(dr.train_X, n)
-
-        if 'use_wiener' in kwargs:
-            del kwargs['use_wiener']
-        if 'wiener_n' in kwargs:
-            del kwargs['wiener_n']
-
-        regr = RandomForestRegressor(
-            **kwargs
-        )
-
-        regr.fit(dr.train_X, dr.train_y)
-        train_pred_y = regr.predict(dr.train_X)
-        pred_y = regr.predict(dr.test_X)
-
-        train_predictions = dr.train_X.copy()
-        train_predictions['predictions'] = train_pred_y
-
-        test_predictions = dr.test_X.copy()
-        test_predictions['predictions'] = pred_y
-
-        prediction_train_output_path = save_df_to_file(train_predictions)
-        prediction_test_output_path = save_df_to_file(test_predictions)
-
-        stats = dict(kwargs)
-        stats['job_duration'] = time.time() - start_time,
-
-        stats['prediction_train_output_path'] = prediction_train_output_path
-        stats['prediction_test_output_path'] = prediction_test_output_path
-
-        stats['training_errors'] = calculate_errors(dr.train_y, train_pred_y)
-        stats['testing_errors'] = calculate_errors(dr.test_y, pred_y)
-
-        stats['train_path'] = str(train_path)
-        stats['test_path'] = str(test_path)
-        return stats
 
 
-from sklearn.neural_network import MLPRegressor
-
-
-class MLPProcessor:
-    def process(
-            self, train_path: str, test_path: str,
-            **kwargs
-    ):
-        dr = DataFrameReader(train_path, test_path)
-
-        start_time = time.time()
-        if kwargs['use_wiener']:
-            n = kwargs['wiener_n']
-            dr.test_X = wp_features.fit(dr.test_X, n)
-            dr.train_X = wp_features.fit(dr.train_X, n)
-
-        if 'use_wiener' in kwargs:
-            del kwargs['use_wiener']
-        if 'wiener_n' in kwargs:
-            del kwargs['wiener_n']
-
-        mlp = MLPRegressor(
-            **kwargs
-        )
-        mlp.fit(dr.train_X, dr.train_y)
-        train_pred_y = mlp.predict(dr.train_X)
-        pred_y = mlp.predict(dr.test_X)
-
-        train_predictions = dr.train_X.copy()
-        train_predictions['predictions'] = train_pred_y
-
-        test_predictions = dr.test_X.copy()
-        test_predictions['predictions'] = pred_y
-
-        prediction_train_output_path = save_df_to_file(train_predictions)
-        prediction_test_output_path = save_df_to_file(test_predictions)
-
-        stats = dict(kwargs)
-        stats['job_duration'] = time.time() - start_time,
-
-        stats['prediction_train_output_path'] = prediction_train_output_path
-        stats['prediction_test_output_path'] = prediction_test_output_path
-
-        stats['training_errors'] = calculate_errors(dr.train_y, train_pred_y)
-        stats['testing_errors'] = calculate_errors(dr.test_y, pred_y)
-
-        stats['train_path'] = str(train_path)
-        stats['test_path'] = str(test_path)
-        return stats
-
-
-class AllAlgorithmsProcessor:
-    def process(
-            self,
-            **kwargs
-    ):
-        all_propcessors = {
-            "grrn": GRRNProcessor(),
-            "svr": SVRProcessor(),
-            "sgd": SGDProcessor(),
-            "ada-boost": AdaBoostProcessor(),
-            "random-forest": RandomForestProcessor(),
-            "mlp": MLPProcessor()
-        }
-        stats_per_processor = {}
-        for key in all_propcessors:
-            stats_per_processor[key] = all_propcessors[key].process(**filter_null(kwargs[key]))
-
-        df_train = pd.read_csv(stats_per_processor['grrn']['train_path'], header=None)
-        df_test = pd.read_csv(stats_per_processor['grrn']['test_path'], header=None)
-
-        for key in stats_per_processor:
-            if key == 'grrn':
-                test = pd.read_csv(stats_per_processor[key]['test_prediction_out'])
-                df_test[key] = test['predictions']
-            else:
-                test = pd.read_csv(stats_per_processor[key]['prediction_test_output_path'])
-                train = pd.read_csv(stats_per_processor[key]['prediction_train_output_path'])
-                df_test[key] = test['predictions']
-                df_train[key] = train['predictions']
-            print(f"Processed: {key}")
-        prediction_train_output_path = save_df_to_file(df_train)
-        prediction_test_output_path = save_df_to_file(df_test)
-        stats = {'stats_per_processor': stats_per_processor,
-                 'prediction_train_output_path': prediction_train_output_path,
-                 'prediction_test_output_path': prediction_test_output_path}
-        return stats
-
-
-def filter_null(kwargs):
-    return {k: v for k, v in kwargs.items() if v is not None}

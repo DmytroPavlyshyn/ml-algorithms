@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.base import ClassifierMixin, BaseEstimator
 
 
 class WienerPolynomialFeatures:
@@ -37,3 +38,43 @@ class WienerPolynomialFeatures:
             new_row.append(tbl[i][-1])
             res.append(new_row)
         return pd.DataFrame(data=res)
+
+import numpy as np
+
+class MaxScaler(BaseEstimator, ClassifierMixin):
+
+    def __init__(self, name="MaxScaler"):
+        self.name = name
+
+    def fit(self, X):
+        self.max_elements = np.amax(X, axis=0)
+        return self
+
+    def transform(self, X):
+        scaledX = X / self.max_elements
+        return scaledX
+
+
+def main():
+    df_train = pd.read_csv('/Users/dmytropavlyshyn/Study/datasets/trainCO.txt', header=None)
+    df_test = pd.read_csv('/Users/dmytropavlyshyn/Study/datasets/testCO.txt', header=None)
+
+    train_size = len(df_train)
+
+    train_X = df_train.iloc[:, :-1]
+    train_y = df_train.iloc[:, -1]
+    test_X = df_test.iloc[:, :-1]
+    test_y = df_test.iloc[:, -1]
+
+    scaler = MaxScaler()
+    scaler.fit(train_X)
+
+    mtrain_X = scaler.transform(train_X)
+    mtest_X = scaler.transform(test_X)
+    wp_features = WienerPolynomialFeatures()
+    _test_X = wp_features.fit(mtest_X, 2)
+    _test_X
+
+
+if __name__ == '__main__':
+    main()

@@ -18,7 +18,7 @@ export class MetricsTableComponent implements OnInit {
 
   lookup = {
     "mean_absolute_percentage": "Mean absolute percentage error",
-    "root_mean_squared": "Root-mean-square deviation",
+    "root_mean_squared": "Root-mean-square error",
     "sum_of_squared_errors": "Sum of squared errors",
     "symmetric_mean_absolute_percentage_error": "Symmetric mean absolute percentage error",
     "mean_absolute_error": "Mean absolute error",
